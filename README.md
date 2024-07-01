@@ -1,2 +1,2 @@
 # Spring-Microservices
-A small dissertation about the transition from monolithic architectures to mircroservices architectures
+A focused exploration of transitioning monolithic applications to microservices architectures.
