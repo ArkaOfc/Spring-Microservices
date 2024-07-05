@@ -32,7 +32,7 @@ public class Recommendation {
         this.content = content;
     }
 
-    public Long getId() {
+    public Long getRecommendationId() {
         return recommendationId;
     }
 
@@ -56,7 +56,7 @@ public class Recommendation {
         return content;
     }
 
-    public void setId(Long recommendationId) {
+    public void setRecommendationId(Long recommendationId) {
         this.recommendationId = recommendationId;
     }
 

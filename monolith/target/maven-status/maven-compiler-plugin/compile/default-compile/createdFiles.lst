@@ -1,3 +1,4 @@
+com\larcangeli\monolith\util\exceptions\InvalidInputException.class
 com\larcangeli\monolith\config\AppConfig.class
 com\larcangeli\monolith\mapper\ProductMapperImpl.class
 com\larcangeli\monolith\web\controller\ReviewController.class
@@ -7,6 +8,7 @@ com\larcangeli\monolith\service\impl\RecommendationService.class
 com\larcangeli\monolith\service\IReviewService.class
 com\larcangeli\monolith\config\WebConfig.class
 com\larcangeli\monolith\web\dto\RecommendationDTO.class
+com\larcangeli\monolith\util\GlobalControllerExceptionHandler.class
 com\larcangeli\monolith\MonolithApplication.class
 com\larcangeli\monolith\web\controller\RecommendationController.class
 com\larcangeli\monolith\persistence\model\Review.class
@@ -17,6 +19,8 @@ com\larcangeli\monolith\persistence\repository\IReviewRepository.class
 com\larcangeli\monolith\service\IRecommendationService.class
 com\larcangeli\monolith\mapper\ReviewMapper.class
 com\larcangeli\monolith\web\dto\ProductDTO.class
+com\larcangeli\monolith\util\exceptions\NotFoundException.class
+com\larcangeli\monolith\web\dto\ProductAggregateDTO.class
 com\larcangeli\monolith\mapper\RecommendationMapper.class
 com\larcangeli\monolith\web\controller\ProductController.class
 com\larcangeli\monolith\web\dto\ReviewDTO.class
@@ -24,4 +28,6 @@ com\larcangeli\monolith\service\impl\ReviewService.class
 com\larcangeli\monolith\mapper\RecommendationMapperImpl.class
 com\larcangeli\monolith\service\IProductService.class
 com\larcangeli\monolith\mapper\ReviewMapperImpl.class
+com\larcangeli\monolith\web\controller\ProductCompositeController.class
 com\larcangeli\monolith\mapper\ProductMapper.class
+com\larcangeli\monolith\util\HttpErrorInfo.class

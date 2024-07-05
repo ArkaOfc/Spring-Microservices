@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-01T16:32:33+0200",
+    date = "2024-07-05T16:20:19+0200",
     comments = "version: 1.6.0.Beta1, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)"
 )
 @Component
@@ -19,17 +19,17 @@ public class RecommendationMapperImpl implements RecommendationMapper {
             return null;
         }
 
+        Long recommendationId = null;
         Integer version = null;
         String author = null;
         int rating = 0;
         String content = null;
 
+        recommendationId = r.getRecommendationId();
         version = r.getVersion();
         author = r.getAuthor();
         rating = r.getRating();
         content = r.getContent();
-
-        Long recommendationId = null;
 
         RecommendationDTO recommendationDTO = new RecommendationDTO( recommendationId, version, author, rating, content );
 
@@ -44,6 +44,7 @@ public class RecommendationMapperImpl implements RecommendationMapper {
 
         Recommendation recommendation = new Recommendation();
 
+        recommendation.setRecommendationId( rDTO.recommendationId() );
         recommendation.setVersion( rDTO.version() );
         recommendation.setAuthor( rDTO.author() );
         recommendation.setRating( rDTO.rating() );

@@ -1,5 +1,6 @@
 package com.larcangeli.monolith.service.impl;
 
+import com.larcangeli.monolith.persistence.model.Product;
 import com.larcangeli.monolith.persistence.model.Review;
 import com.larcangeli.monolith.persistence.repository.IReviewRepository;
 import com.larcangeli.monolith.service.IReviewService;
@@ -33,8 +34,19 @@ public class ReviewService implements IReviewService {
     }
 
     @Override
+    public List<Review> findAllByProduct(Product product) {
+        return reviewRepository.findAllByProduct(product);
+    }
+
+    @Override
     public void deleteById(Long id) {
         reviewRepository.deleteById(id);
     }
+    @Override
+    public void deleteAllByProduct(Product product) {
+        reviewRepository.deleteAllByProduct(product);
+    }
+
+
 
 }

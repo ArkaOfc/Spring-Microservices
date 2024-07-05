@@ -1,5 +1,6 @@
 package com.larcangeli.monolith.service.impl;
 
+import com.larcangeli.monolith.persistence.model.Product;
 import com.larcangeli.monolith.persistence.model.Recommendation;
 import com.larcangeli.monolith.persistence.repository.IRecommendationRepository;
 import com.larcangeli.monolith.service.IRecommendationService;
@@ -20,7 +21,9 @@ public class RecommendationService implements IRecommendationService {
     }
 
     @Override
-    public Optional<Recommendation> findById(Long id){return recommendationRepository.findById(id);}
+    public Optional<Recommendation> findById(Long id){
+        return recommendationRepository.findById(id);
+    }
     @Override
     public Collection<Recommendation> findAll(){
         List<Recommendation> recommendations = new ArrayList<>();
@@ -33,8 +36,18 @@ public class RecommendationService implements IRecommendationService {
     }
 
     @Override
+    public List<Recommendation> findAllByProduct(Product product) {
+        return recommendationRepository.findAllByProduct(product);
+    }
+
+    @Override
     public void deleteById(Long id) {
         recommendationRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAllByProduct(Product product) {
+        recommendationRepository.deleteAllByProduct(product);
     }
 
 }
