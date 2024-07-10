@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.larcangeli</groupId>
-	<artifactId>monolith</artifactId>
+	<artifactId>base-monolith</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>monolith</name>
-	<description>monolith</description>
+	<name>base-monolith</name>
+	<description>base-monolith</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -59,6 +59,11 @@
 			<artifactId>mapstruct</artifactId>
 			<version>1.6.0.Beta1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.4.2.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -69,7 +74,7 @@
 				<version>3.4.0</version>
 				<configuration>
 					<to>
-						<image>com.larcangeli/monolith-jib:${project.version}</image>
+						<image>com.larcangeli/base-monolith-jib:${project.version}</image>
 					</to>
 				</configuration>
 			</plugin>
@@ -106,7 +111,7 @@
 				<version>3.4.0</version>
 				<configuration>
 					<to>
-						<image>com.larcangeli/monolith-jib:${project.version}</image>
+						<image>com.larcangeli/base-monolith-jib:${project.version}</image>
 					</to>
 				</configuration>
 			</plugin>

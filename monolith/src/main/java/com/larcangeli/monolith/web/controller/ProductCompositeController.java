@@ -51,7 +51,7 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value    = "/product-composite", consumes = "application/json")
+    @PostMapping(value = "/product-composite", consumes = "application/json")
     void createProduct(@RequestBody ProductAggregateDTO body){
         try{
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", body.productId());
