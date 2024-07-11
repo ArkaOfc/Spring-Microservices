@@ -4,9 +4,15 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.Version;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Recommendation {
+
+    //just for comparisons
+    @Id
+    @GeneratedValue
+    private UUID uuid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,11 +92,11 @@ public class Recommendation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recommendation that = (Recommendation) o;
-        return rating == that.rating && Objects.equals(recommendationId, that.recommendationId) && Objects.equals(version, that.version) && Objects.equals(product, that.product) && Objects.equals(author, that.author) && Objects.equals(content, that.content);
+        return Objects.equals(uuid, that.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recommendationId, version, product, author, rating, content);
+        return Objects.hash(uuid);
     }
 }

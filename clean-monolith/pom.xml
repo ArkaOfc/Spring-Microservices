@@ -64,7 +64,11 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>6.4.2.Final</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

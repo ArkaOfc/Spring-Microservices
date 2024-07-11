@@ -3,9 +3,15 @@ package com.larcangeli.monolith.persistence.model;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Review {
+
+    //just for comparisons
+    @Id
+    @GeneratedValue
+    private UUID uuid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,11 +78,11 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
-        return Objects.equals(product, review.product) && Objects.equals(reviewId, review.reviewId) && Objects.equals(author, review.author) && Objects.equals(subject, review.subject) && Objects.equals(content, review.content);
+        return Objects.equals(uuid, review.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(product, reviewId, author, subject, content);
+        return Objects.hash(uuid);
     }
 }

@@ -3,21 +3,23 @@ package com.larcangeli.monolith.persistence.model;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Version;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Product {
+
+    //just for comparisons
+    @Id
+    @GeneratedValue
+    private UUID uuid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
     @OneToMany(mappedBy = "product")
-    private List<Recommendation> recommendations;
+    private Set<Recommendation> recommendations;
     @OneToMany(mappedBy = "product")
-    private List<Review> reviews;
+    private Set<Review> reviews;
 
     @Version
     private Integer version;
@@ -34,21 +36,21 @@ public class Product {
         this.weight = weight;
     }
 
-    public Product(List<Recommendation> recommendations, List<Review> reviews) {
+    public Product(Set<Recommendation> recommendations, Set<Review> reviews) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         name = null;
         weight = 0;
     }
 
-    public Product(List<Recommendation> recommendations, List<Review> reviews, String name, int weight) {
+    public Product(Set<Recommendation> recommendations, Set<Review> reviews, String name, int weight) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         this.name = name;
         this.weight = weight;
     }
 
-    public Product(List<Recommendation> recommendations, List<Review> reviews, String name, int weight, Integer version) {
+    public Product(Set<Recommendation> recommendations, Set<Review> reviews, String name, int weight, Integer version) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         this.name = name;
@@ -88,7 +90,7 @@ public class Product {
         this.version = version;
     }
 
-    public List<Recommendation> getAllRecommendations() {
+    public Set<Recommendation> getAllRecommendations() {
         return recommendations;
     }
 
@@ -100,15 +102,15 @@ public class Product {
         }
     }
 
-    public void setAllRecommendations(List<Recommendation> recommendations) {
+    public void setAllRecommendations(Set<Recommendation> recommendations) {
         this.recommendations = recommendations;
     }
 
-    public List<Review> getAllReviews() {
+    public Set<Review> getAllReviews() {
         return reviews;
     }
 
-    public void setAllReviews(List<Review> reviews) {
+    public void setAllReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
 
@@ -125,11 +127,11 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return weight == product.weight && Objects.equals(productId, product.productId) && Objects.equals(version, product.version) && Objects.equals(name, product.name);
+        return Objects.equals(uuid, product.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, version, name, weight);
+        return Objects.hash(uuid);
     }
 }

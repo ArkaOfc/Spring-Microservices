@@ -26,7 +26,7 @@ public interface IProductCompositeService {
 
     void deleteReview(Long reviewId);
 
-    List<Recommendation> findRecommendationsByProduct(Product p);
+    Set<Recommendation> findRecommendationsByProduct(Product p);
 
-    List<Review> findReviewsByProduct(Product p);
+    Set<Review> findReviewsByProduct(Product p);
 }

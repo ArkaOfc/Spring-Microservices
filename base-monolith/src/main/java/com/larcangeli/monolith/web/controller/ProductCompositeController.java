@@ -48,8 +48,8 @@ public class ProductCompositeController {
             throw new NotFoundException("No product found with ID: " + productId);
         }
 
-        List<Recommendation>     recommendations = productService.findRecommendationsByProduct(p.get());
-        List<Review>             reviews = productService.findReviewsByProduct(p.get());
+        Set<Recommendation>     recommendations = productService.findRecommendationsByProduct(p.get());
+        Set<Review>             reviews = productService.findReviewsByProduct(p.get());
 
         return createProductAggregate(p.get(), recommendations, reviews);
 
@@ -178,8 +178,8 @@ public class ProductCompositeController {
 
     private ProductAggregateDTO createProductAggregate(
             Product p,
-            List<Recommendation> recommendations,
-            List<Review> reviews){
+            Set<Recommendation> recommendations,
+            Set<Review> reviews){
 
         // 1. Setup product info
         Long productId = p.getProductId();

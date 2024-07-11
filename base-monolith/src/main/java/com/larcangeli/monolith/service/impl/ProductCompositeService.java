@@ -69,12 +69,12 @@ public class ProductCompositeService implements IProductCompositeService {
     }
 
     @Override
-    public List<Recommendation> findRecommendationsByProduct(Product p) {
+    public Set<Recommendation> findRecommendationsByProduct(Product p) {
         return p.getAllRecommendations();
     }
 
     @Override
-    public List<Review> findReviewsByProduct(Product p) {
+    public Set<Review> findReviewsByProduct(Product p) {
         return p.getAllReviews();
     }
 
