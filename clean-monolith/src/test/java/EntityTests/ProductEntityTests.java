@@ -1,7 +1,7 @@
 package EntityTests;
 
-import com.larcangeli.monolith.core.domain.entities.ProductEntity;
-import com.larcangeli.monolith.core.interfaces.IProductEntity;
+import com.larcangeli.monolith.core.entity.implementation.ProductEntity;
+import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import org.junit.Test;
 
 
