@@ -4,6 +4,7 @@ public interface IRecommendationEntity {
     Long getId();
     Integer getVersion();
     String getAuthor();
+    int getRating();
     String getContent();
 
 }

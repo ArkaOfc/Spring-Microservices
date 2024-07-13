@@ -18,15 +18,15 @@ public interface IProductCompositeService {
 
     void deleteById(Long id);
 
-    Recommendation saveRecommendation(Recommendation recommendation);
+    void saveRecommendation(Recommendation recommendation);
 
-    Review saveReview(Review review);
+    void saveReview(Review review);
 
     void deleteRecommendation(Long recommendationId);
 
     void deleteReview(Long reviewId);
 
-    Set<Recommendation> findRecommendationsByProduct(Product p);
+    Set<Recommendation> findRecommendationsByProductId(Long productId);
 
-    Set<Review> findReviewsByProduct(Product p);
+    Set<Review> findReviewsByProductId(Long productId);
 }

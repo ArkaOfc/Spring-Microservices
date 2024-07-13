@@ -5,6 +5,9 @@ import com.larcangeli.monolith.adapters.persistence.implementation.Product;
 import com.larcangeli.monolith.adapters.persistence.implementation.Recommendation;
 import com.larcangeli.monolith.adapters.persistence.implementation.Review;
 import com.larcangeli.monolith.adapters.persistence.repository.IProductCompositeRepository;
+import com.larcangeli.monolith.util.exceptions.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,6 +23,7 @@ public class ProductCompositeService implements IProductCompositeService {
 
     @Override
     public Optional<Product> findById(Long id){return productRepository.findById(id);}
+
     @Override
     public Collection<Product> findAll(){
         List<Product> products = new ArrayList<>();
@@ -33,49 +37,59 @@ public class ProductCompositeService implements IProductCompositeService {
 
     @Override
     public void deleteById(Long id) {
+        Optional<Product> p = productRepository.findById(id);
+        if(p.isEmpty())
+            throw new NotFoundException();
+        p.get().deleteAllRecommendations();
+        p.get().deleteAllReviews();
         productRepository.deleteById(id);
     }
 
     @Override
-    public Recommendation saveRecommendation(Recommendation recommendation) {
-        recommendation.getProduct().getAllRecommendations().add(recommendation);
-        return recommendation;
+    public void saveRecommendation(Recommendation recommendation) {
+        Optional<Product> p = productRepository.findById(recommendation.getProductId());
+        if(p.isPresent()){
+            p.get().addRecommendation(recommendation);
+        }else throw new NoSuchElementException();
     }
 
     @Override
-    public Review saveReview(Review review) {
-        review.getProduct().getAllReviews().add(review);
-        return review;
+    public void saveReview(Review review){
+        Optional<Product> p = productRepository.findById(review.getProductId());
+        if(p.isPresent()){
+            p.get().addReview(review);
+        }else throw new NoSuchElementException();
     }
 
     @Override
     public void deleteRecommendation(Long recommendationId) {
-
-        if(this.findAll().stream().anyMatch(p -> p.getRecommendation(recommendationId) != null)){
-            Product prod = this.findAll().stream().filter(p -> p.getRecommendation(recommendationId) != null).findFirst().get();
-            prod.getAllRecommendations().remove(prod.getRecommendation(recommendationId));
-        }
-        else throw new NoSuchElementException();
-
+        Optional<Product> prod = this.findAll().stream().filter(p -> p.getRecommendation(recommendationId) != null).findFirst();
+        if(prod.isEmpty())
+            throw new NotFoundException();
+        prod.get().removeRecommendation(prod.get().getRecommendation(recommendationId));
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-        if(this.findAll().stream().anyMatch(p -> p.getReview(reviewId) != null)){
-            Product prod = this.findAll().stream().filter(p -> p.getReview(reviewId) != null).findFirst().get();
-            prod.getAllReviews().remove(prod.getReview(reviewId));
+        Optional<Product> prod = this.findAll().stream().filter(p -> p.getReview(reviewId) != null).findFirst();
+        if(prod.isEmpty()){
+            throw new NotFoundException();
         }
-        else throw new NoSuchElementException();
+        prod.get().removeReview(prod.get().getReview(reviewId));
     }
 
     @Override
-    public List<Recommendation> findRecommendationsByProduct(Product p) {
-        return p.getAllRecommendations();
+    public Set<Recommendation> findRecommendationsByProductId(Long productId) {
+        if(productRepository.findById(productId).isPresent()){
+            return productRepository.findById(productId).get().getAllRecommendations();
+        }else throw new NoSuchElementException();
     }
 
     @Override
-    public List<Review> findReviewsByProduct(Product p) {
-        return p.getAllReviews();
+    public Set<Review> findReviewsByProductId(Long productId) {
+        if(productRepository.findById(productId).isPresent()){
+            return productRepository.findById(productId).get().getAllReviews();
+        }else throw new NoSuchElementException();
     }
 
 

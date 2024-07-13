@@ -1,4 +1,4 @@
 package com.larcangeli.monolith.core.usecase.boundaries.output;
 
-public interface ReviewOutputBoundaries {
+public interface RetrievalOutputBoundary {
 }

@@ -1,6 +1,9 @@
 package com.larcangeli.monolith.persistence.model;
 
+import com.larcangeli.monolith.web.controller.ProductCompositeController;
 import jakarta.persistence.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Version;
 
 import java.util.*;
@@ -8,17 +11,16 @@ import java.util.*;
 @Entity
 public class Product {
 
-    //just for comparisons
-    @Id
-    @GeneratedValue
-    private UUID uuid;
+    private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeController.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId")
     private Set<Recommendation> recommendations;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId")
     private Set<Review> reviews;
 
     @Version
@@ -27,11 +29,11 @@ public class Product {
     private int weight;
 
     public Product(){
-        name = null;
-        weight = 0;
     }
 
-    public Product(String name, int weight){
+    public Product(String name, int weight, Integer version){
+        this.recommendations = new HashSet<>();
+        this.reviews = new HashSet<>();
         this.name = name;
         this.weight = weight;
     }
@@ -106,6 +108,18 @@ public class Product {
         this.recommendations = recommendations;
     }
 
+    public void deleteAllRecommendations() {
+        recommendations.clear();
+    }
+
+    public void addRecommendation(Recommendation r) {
+        recommendations.add(r);
+    }
+
+    public void removeRecommendation(Recommendation r){
+        recommendations.remove(r);
+    }
+
     public Set<Review> getAllReviews() {
         return reviews;
     }
@@ -122,16 +136,40 @@ public class Product {
         }
     }
 
+    public void deleteAllReviews() {
+        reviews.clear();
+    }
+
+    public void addReview(Review r) {
+        reviews.add(r);
+    }
+
+    public void removeReview(Review r){
+        reviews.remove(r);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(uuid, product.uuid);
+        return Objects.equals(productId, product.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(productId);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", recommendations=" + recommendations +
+                ", reviews=" + reviews +
+                ", version=" + version +
+                ", name='" + name + '\'' +
+                ", weight=" + weight +
+                '}';
     }
 }

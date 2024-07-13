@@ -9,18 +9,11 @@ import java.util.UUID;
 @Entity
 public class Recommendation {
 
-    //just for comparisons
-    @Id
-    @GeneratedValue
-    private UUID uuid;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recommendationId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private Long productId;
 
     @Version
     private Integer version;
@@ -32,8 +25,8 @@ public class Recommendation {
     public Recommendation() {
     }
 
-    public Recommendation(Product product, String author, int rating, String content) {
-        this.product = product;
+    public Recommendation(Long productId, String author, int rating, String content) {
+        this.productId = productId;
         this.author = author;
         this.rating = rating;
         this.content = content;
@@ -47,8 +40,8 @@ public class Recommendation {
         return version;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
     public String getAuthor() {
@@ -71,8 +64,8 @@ public class Recommendation {
         this.version = version;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(Long productId) {
+        this.productId = productId;
     }
 
     public void setAuthor(String author) {
@@ -92,11 +85,23 @@ public class Recommendation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recommendation that = (Recommendation) o;
-        return Objects.equals(uuid, that.uuid);
+        return Objects.equals(recommendationId, that.recommendationId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(recommendationId);
+    }
+
+    @Override
+    public String toString() {
+        return "Recommendation{" +
+                "recommendationId=" + recommendationId +
+                ", productId=" + productId +
+                ", version=" + version +
+                ", author='" + author + '\'' +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

@@ -1,11 +1,11 @@
 package com.larcangeli.monolith.adapters.persistence.implementation;
 
 import jakarta.persistence.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Version;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Product {
@@ -13,10 +13,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
-    @OneToMany(mappedBy = "product")
-    private List<Recommendation> recommendations;
-    @OneToMany(mappedBy = "product")
-    private List<Review> reviews;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId")
+    private Set<Recommendation> recommendations;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId")
+    private Set<Review> reviews;
 
     @Version
     private Integer version;
@@ -24,30 +26,30 @@ public class Product {
     private int weight;
 
     public Product(){
-        name = null;
-        weight = 0;
     }
 
-    public Product(String name, int weight){
+    public Product(String name, int weight, Integer version){
+        this.recommendations = new HashSet<>();
+        this.reviews = new HashSet<>();
         this.name = name;
         this.weight = weight;
     }
 
-    public Product(List<Recommendation> recommendations, List<Review> reviews) {
+    public Product(Set<Recommendation> recommendations, Set<Review> reviews) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         name = null;
         weight = 0;
     }
 
-    public Product(List<Recommendation> recommendations, List<Review> reviews, String name, int weight) {
+    public Product(Set<Recommendation> recommendations, Set<Review> reviews, String name, int weight) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         this.name = name;
         this.weight = weight;
     }
 
-    public Product(List<Recommendation> recommendations, List<Review> reviews, String name, int weight, Integer version) {
+    public Product(Set<Recommendation> recommendations, Set<Review> reviews, String name, int weight, Integer version) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         this.name = name;
@@ -87,7 +89,7 @@ public class Product {
         this.version = version;
     }
 
-    public List<Recommendation> getAllRecommendations() {
+    public Set<Recommendation> getAllRecommendations() {
         return recommendations;
     }
 
@@ -99,15 +101,27 @@ public class Product {
         }
     }
 
-    public void setAllRecommendations(List<Recommendation> recommendations) {
+    public void setAllRecommendations(Set<Recommendation> recommendations) {
         this.recommendations = recommendations;
     }
 
-    public List<Review> getAllReviews() {
+    public void deleteAllRecommendations() {
+        recommendations.clear();
+    }
+
+    public void addRecommendation(Recommendation r) {
+        recommendations.add(r);
+    }
+
+    public void removeRecommendation(Recommendation r){
+        recommendations.remove(r);
+    }
+
+    public Set<Review> getAllReviews() {
         return reviews;
     }
 
-    public void setAllReviews(List<Review> reviews) {
+    public void setAllReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
 
@@ -119,16 +133,40 @@ public class Product {
         }
     }
 
+    public void deleteAllReviews() {
+        reviews.clear();
+    }
+
+    public void addReview(Review r) {
+        reviews.add(r);
+    }
+
+    public void removeReview(Review r){
+        reviews.remove(r);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return weight == product.weight && Objects.equals(productId, product.productId) && Objects.equals(version, product.version) && Objects.equals(name, product.name);
+        return Objects.equals(productId, product.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, version, name, weight);
+        return Objects.hash(productId);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", recommendations=" + recommendations +
+                ", reviews=" + reviews +
+                ", version=" + version +
+                ", name='" + name + '\'' +
+                ", weight=" + weight +
+                '}';
     }
 }

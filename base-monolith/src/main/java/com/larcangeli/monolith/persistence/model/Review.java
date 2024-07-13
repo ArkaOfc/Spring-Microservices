@@ -8,17 +8,12 @@ import java.util.UUID;
 @Entity
 public class Review {
 
-    //just for comparisons
-    @Id
-    @GeneratedValue
-    private UUID uuid;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+
+    private Long productId;
+
     private String author;
     private String subject;
     private String content;
@@ -26,15 +21,15 @@ public class Review {
     public Review() {
     }
 
-    public Review(Product product, String author, String subject, String content) {
-        this.product = product;
+    public Review(Long productId, String author, String subject, String content) {
+        this.productId = productId;
         this.author = author;
         this.subject = subject;
         this.content = content;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
     public Long getReviewId() {
@@ -53,8 +48,8 @@ public class Review {
         return content;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(Long productId) {
+        this.productId = productId;
     }
 
     public void setReviewId(Long reviewId) {
@@ -78,11 +73,11 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
-        return Objects.equals(uuid, review.uuid);
+        return Objects.equals(reviewId, review.reviewId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(reviewId);
     }
 }
