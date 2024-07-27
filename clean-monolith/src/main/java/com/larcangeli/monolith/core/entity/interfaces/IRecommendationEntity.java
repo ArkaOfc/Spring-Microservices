@@ -1,6 +1,7 @@
 package com.larcangeli.monolith.core.entity.interfaces;
 
 public interface IRecommendationEntity {
+    Long getProductId();
     Long getId();
     Integer getVersion();
     String getAuthor();

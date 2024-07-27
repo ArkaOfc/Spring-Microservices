@@ -1,7 +1,6 @@
-package com.larcangeli.monolith.core.entity.factory.impl;
+package com.larcangeli.monolith.core.entity.implementation;
 
-import com.larcangeli.monolith.core.entity.implementation.ProductEntity;
-import com.larcangeli.monolith.core.entity.factory.IProductFactory;
+import com.larcangeli.monolith.core.entity.interfaces.IProductFactory;
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;

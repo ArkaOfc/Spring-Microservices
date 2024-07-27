@@ -92,52 +92,12 @@ public class Product {
         this.version = version;
     }
 
-    public Set<Recommendation> getAllRecommendations() {
-        return recommendations;
-    }
-
-    public Recommendation getRecommendation(Long recommendationId){
-        try{
-            return recommendations.stream().filter(r -> r.getRecommendationId().equals(recommendationId)).findFirst().get();
-        }catch (NoSuchElementException e){
-            throw new NoSuchElementException();
-        }
-    }
-
-    public void setAllRecommendations(Set<Recommendation> recommendations) {
-        this.recommendations = recommendations;
-    }
-
-    public void deleteAllRecommendations() {
-        recommendations.clear();
-    }
-
     public void addRecommendation(Recommendation r) {
         recommendations.add(r);
     }
 
     public void removeRecommendation(Recommendation r){
         recommendations.remove(r);
-    }
-
-    public Set<Review> getAllReviews() {
-        return reviews;
-    }
-
-    public void setAllReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public Review getReview(Long reviewId){
-        try{
-            return reviews.stream().filter(r -> r.getReviewId().equals(reviewId)).findFirst().get();
-        }catch (NoSuchElementException e){
-            throw new NoSuchElementException();
-        }
-    }
-
-    public void deleteAllReviews() {
-        reviews.clear();
     }
 
     public void addReview(Review r) {

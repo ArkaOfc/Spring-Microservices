@@ -1,8 +1,6 @@
-package com.larcangeli.monolith.core.entity.factory.impl;
+package com.larcangeli.monolith.core.entity.implementation;
 
-import com.larcangeli.monolith.core.entity.implementation.ReviewEntity;
-import com.larcangeli.monolith.core.entity.factory.IReviewFactory;
-import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
+import com.larcangeli.monolith.core.entity.interfaces.IReviewFactory;
 import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
 
 public class ReviewFactory implements IReviewFactory {

@@ -27,6 +27,11 @@ public class RecommendationEntity implements IRecommendationEntity {
     }
 
     @Override
+    public Long getProductId() {
+        return productId;
+    }
+
+    @Override
     public Long getId() {
         return this.id;
     }

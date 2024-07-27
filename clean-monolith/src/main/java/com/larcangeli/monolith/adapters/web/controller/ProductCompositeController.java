@@ -1,5 +1,8 @@
 package com.larcangeli.monolith.adapters.web.controller;
 
+import com.larcangeli.monolith.adapters.service.CreationService;
+import com.larcangeli.monolith.adapters.service.RemovalService;
+import com.larcangeli.monolith.adapters.service.RetrievalService;
 import com.larcangeli.monolith.adapters.web.mapper.ProductAggregateMapper;
 import com.larcangeli.monolith.adapters.web.mapper.RecommendationMapper;
 import com.larcangeli.monolith.adapters.web.mapper.ReviewMapper;
@@ -7,6 +10,7 @@ import com.larcangeli.monolith.adapters.persistence.implementation.Product;
 import com.larcangeli.monolith.adapters.persistence.implementation.Recommendation;
 import com.larcangeli.monolith.adapters.persistence.implementation.Review;
 import com.larcangeli.monolith.adapters.service.IProductCompositeService;
+import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.util.exceptions.NotFoundException;
 import com.larcangeli.monolith.adapters.web.mapper.dto.ProductAggregateDTO;
 import com.larcangeli.monolith.adapters.web.mapper.dto.RecommendationDTO;
@@ -27,24 +31,35 @@ public class ProductCompositeController {
     private final ProductAggregateMapper productMapper;
     private final RecommendationMapper recommendationMapper;
     private final ReviewMapper reviewMapper;
-    private final IProductCompositeService productService;
+    private final CreationService creationService;
+    private final RemovalService removalService;
+    private final RetrievalService retrievalService;
 
     @Autowired
-    public ProductCompositeController(ProductAggregateMapper productMapper, RecommendationMapper recommendationMapper, ReviewMapper reviewMapper, IProductCompositeService productService) {
+    public ProductCompositeController(ProductAggregateMapper productMapper, RecommendationMapper recommendationMapper, ReviewMapper reviewMapper, CreationService creationService, RemovalService removalService, RetrievalService retrievalService) {
         this.productMapper = productMapper;
         this.recommendationMapper = recommendationMapper;
         this.reviewMapper = reviewMapper;
-        this.productService = productService;
+        this.creationService = creationService;
+        this.removalService = removalService;
+        this.retrievalService = retrievalService;
     }
 
     @GetMapping(value = "/product-composite/{productId}", produces = "application/json")
-    ProductAggregateDTO getProduct(@PathVariable Long productId){
+    IProductEntity getProduct(@PathVariable Long productId){
 
         LOG.debug("getCompositeProduct: lookup a product aggregate for productId: {}", productId);
-        Optional<Product> p = productService.findById(productId);
-        if(p.isEmpty()){
+        try{
+            IProductEntity p = retrievalService.getProduct(productId);
+
+
+
+
+        }catch (NotFoundException e){
             throw new NotFoundException("No product found with ID: " + productId);
         }
+
+
 
         Set<Recommendation>     recommendations = productService.findRecommendationsByProductId(p.get().getProductId());
         Set<Review>             reviews = productService.findReviewsByProductId(p.get().getProductId());

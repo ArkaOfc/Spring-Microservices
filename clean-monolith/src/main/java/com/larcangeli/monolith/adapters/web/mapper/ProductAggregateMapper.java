@@ -1,17 +1,20 @@
 package com.larcangeli.monolith.adapters.web.mapper;
 
 import com.larcangeli.monolith.adapters.persistence.implementation.Product;
-import com.larcangeli.monolith.adapters.web.mapper.dto.ProductAggregateDTO;
-import com.larcangeli.monolith.adapters.web.mapper.dto.ReviewDTO;
 import com.larcangeli.monolith.core.entity.implementation.ProductEntity;
 import com.larcangeli.monolith.core.entity.implementation.ReviewEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
+import com.larcangeli.monolith.core.entity.interfaces.IProductFactory;
+import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {RecommendationMapper.class, ReviewMapper.class})
+import java.util.List;
+import java.util.Set;
+
+@Mapper(componentModel = "spring")
 public interface ProductAggregateMapper {
-    ProductAggregateDTO productAggregateToProductAggregateDTO(Product p);
-    Product productAggregateDTOToProductAggregate(ProductAggregateDTO pDTO);
-    IProductEntity productAggregateDTOToProductEntity(ProductAggregateDTO pDTO);
-    ProductAggregateDTO productEntityToProductAggregateDTO(IProductEntity p);
+    Product productEntityToProductAggregate(IProductEntity productEntity);
+    IProductEntity productAggregateToProductEntity(Product product);
+    List<IProductEntity> productAggregatesToProductEntities(List<Product> products);
+    List<Product> productEntitiesToProductAggregates(List<IProductEntity> productEntities);
 }

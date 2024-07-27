@@ -1,8 +1,6 @@
-package com.larcangeli.monolith.core.entity.factory.impl;
+package com.larcangeli.monolith.core.entity.implementation;
 
-import com.larcangeli.monolith.core.entity.implementation.RecommendationEntity;
-import com.larcangeli.monolith.core.entity.factory.IRecommendationFactory;
-import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
+import com.larcangeli.monolith.core.entity.interfaces.IRecommendationFactory;
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
 
 public class RecommendationFactory implements IRecommendationFactory {

@@ -43,8 +43,6 @@ public class ProductCompositeService implements IProductCompositeService {
         Optional<Product> p = productRepository.findById(id);
         if(p.isEmpty())
             throw new NotFoundException();
-        p.get().deleteAllRecommendations();
-        p.get().deleteAllReviews();
         productRepository.deleteById(id);
     }
 
@@ -52,7 +50,9 @@ public class ProductCompositeService implements IProductCompositeService {
     public void saveRecommendation(Recommendation recommendation) {
         Optional<Product> p = productRepository.findById(recommendation.getProductId());
         if(p.isPresent()){
-            p.get().addRecommendation(recommendation);
+            Product product = p.get();
+            product.addRecommendation(recommendation);
+            productRepository.save(product);
         }else throw new NoSuchElementException();
     }
 
@@ -60,40 +60,45 @@ public class ProductCompositeService implements IProductCompositeService {
     public void saveReview(Review review){
         Optional<Product> p = productRepository.findById(review.getProductId());
         if(p.isPresent()){
-            p.get().addReview(review);
+            Product product = p.get();
+            product.addReview(review);
+            productRepository.save(product);
         }else throw new NoSuchElementException();
     }
 
     @Override
     public void deleteRecommendation(Long recommendationId) {
-        Optional<Product> prod = this.findAll().stream().filter(p -> p.getRecommendation(recommendationId) != null).findFirst();
-        if(prod.isEmpty())
-            throw new NotFoundException();
-        prod.get().removeRecommendation(prod.get().getRecommendation(recommendationId));
+        Recommendation r = productRepository.findRecommendation(recommendationId);
+        Optional<Product> p = productRepository.findById(r.getProductId());
+        if(p.isPresent()){
+            Product product = p.get();
+            product.removeRecommendation(r);
+            productRepository.save(product);
+        }else throw new NoSuchElementException();
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-        Optional<Product> prod = this.findAll().stream().filter(p -> p.getReview(reviewId) != null).findFirst();
-        if(prod.isEmpty()){
-            throw new NotFoundException();
-        }
-        prod.get().removeReview(prod.get().getReview(reviewId));
+        Review r = productRepository.findReview(reviewId);
+        Optional<Product> p = productRepository.findById(r.getProductId());
+        if(p.isPresent()){
+            Product product = p.get();
+            product.removeReview(r);
+            productRepository.save(product);
+        }else throw new NoSuchElementException();
     }
 
     @Override
     public Set<Recommendation> findRecommendationsByProductId(Long productId) {
         if(productRepository.findById(productId).isPresent()){
-            return productRepository.findById(productId).get().getAllRecommendations();
+            return productRepository.findRecommendationsByProductId(productId);
         }else throw new NoSuchElementException();
     }
 
     @Override
     public Set<Review> findReviewsByProductId(Long productId) {
         if(productRepository.findById(productId).isPresent()){
-            return productRepository.findById(productId).get().getAllReviews();
+            return productRepository.findReviewsByProductId(productId);
         }else throw new NoSuchElementException();
     }
-
-
 }

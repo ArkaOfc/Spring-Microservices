@@ -64,7 +64,7 @@ public class Recommendation {
         this.version = version;
     }
 
-    public void setProduct(Long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 

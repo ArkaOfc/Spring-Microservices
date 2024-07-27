@@ -1,4 +1,4 @@
-package com.larcangeli.monolith.core.entity.factory;
+package com.larcangeli.monolith.core.entity.interfaces;
 
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;

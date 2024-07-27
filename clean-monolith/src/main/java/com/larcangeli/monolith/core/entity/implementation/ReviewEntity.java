@@ -18,6 +18,11 @@ public class ReviewEntity implements IReviewEntity {
     }
 
     @Override
+    public Long getProductId() {
+        return productId;
+    }
+
+    @Override
     public Long getId() {
         return this.id;
     }
