@@ -4,9 +4,11 @@ import com.larcangeli.monolith.core.entity.interfaces.IProductFactory;
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+@Component
 public class ProductFactory implements IProductFactory {
     @Override
     public IProductEntity createProduct(Integer version, String name, int weight) {

@@ -2,7 +2,9 @@ package com.larcangeli.monolith.core.entity.implementation;
 
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationFactory;
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RecommendationFactory implements IRecommendationFactory {
     @Override
     public IRecommendationEntity createRecommendation(Long productId, String author, int rating, String content) {

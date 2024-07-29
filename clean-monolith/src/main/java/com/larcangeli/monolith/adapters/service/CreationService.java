@@ -34,15 +34,17 @@ public class CreationService implements CreationOutputBoundary {
     @Override
     public IProductEntity saveProduct(IProductEntity product) {
         Product p = productRepository.save(productMapper.productEntityToProductAggregate(product));
-        return product;
+        return productMapper.productAggregateToProductEntity(p);
     }
 
     @Override
     public IRecommendationEntity saveRecommendation(IRecommendationEntity recommendation) {
         Optional<Product> p = productRepository.findById(recommendation.getProductId());
         if(p.isPresent()){
+            Product product = p.get();
             Recommendation r = recommendationMapper.recommendationEntityToRecommendation(recommendation);
-            p.get().addRecommendation(r);
+            product.addRecommendation(r);
+            productRepository.save(product);
             return recommendation;
         }else throw new NoSuchElementException();
     }
@@ -51,8 +53,10 @@ public class CreationService implements CreationOutputBoundary {
     public IReviewEntity saveReview(IReviewEntity review){
         Optional<Product> p = productRepository.findById(review.getProductId());
         if(p.isPresent()){
+            Product product = p.get();
             Review r = reviewMapper.reviewEntityToReview(review);
-            p.get().addReview(r);
+            product.addReview(r);
+            productRepository.save(product);
             return review;
         }else throw new NoSuchElementException();
     }

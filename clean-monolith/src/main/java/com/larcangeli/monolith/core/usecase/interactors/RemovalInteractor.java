@@ -1,16 +1,13 @@
 package com.larcangeli.monolith.core.usecase.interactors;
 
-import com.larcangeli.monolith.adapters.persistence.implementation.Product;
-import com.larcangeli.monolith.adapters.web.mapper.ProductAggregateMapper;
-import com.larcangeli.monolith.adapters.web.mapper.dto.ReviewDTO;
-import com.larcangeli.monolith.core.entity.implementation.ProductEntity;
 import com.larcangeli.monolith.core.usecase.boundaries.input.RemovalInputBoundary;
 import com.larcangeli.monolith.core.usecase.boundaries.output.RemovalOutputBoundary;
-import com.larcangeli.monolith.core.usecase.boundaries.output.RetrievalOutputBoundary;
+import org.springframework.stereotype.Component;
 
 /**
  * A simple use case that implements the logic of deleting entities
  */
+@Component
 public class RemovalInteractor implements RemovalInputBoundary {
 
     RemovalOutputBoundary removalOutputBoundary;

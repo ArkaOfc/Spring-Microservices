@@ -78,7 +78,7 @@
 				<version>3.4.0</version>
 				<configuration>
 					<to>
-						<image>com.larcangeli/clean-monolith-jib:${project.version}</image>
+						<image>com.larcangeli/monolith-jib:${project.version}</image>
 					</to>
 				</configuration>
 			</plugin>
@@ -115,7 +115,7 @@
 				<version>3.4.0</version>
 				<configuration>
 					<to>
-						<image>com.larcangeli/clean-monolith-jib:${project.version}</image>
+						<image>com.larcangeli/monolith-jib:${project.version}</image>
 					</to>
 				</configuration>
 			</plugin>

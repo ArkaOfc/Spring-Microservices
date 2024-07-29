@@ -1,20 +1,22 @@
 package com.larcangeli.monolith.adapters.web.controller;
 
-import com.larcangeli.monolith.adapters.service.CreationService;
-import com.larcangeli.monolith.adapters.service.RemovalService;
-import com.larcangeli.monolith.adapters.service.RetrievalService;
 import com.larcangeli.monolith.adapters.web.mapper.ProductAggregateMapper;
 import com.larcangeli.monolith.adapters.web.mapper.RecommendationMapper;
 import com.larcangeli.monolith.adapters.web.mapper.ReviewMapper;
 import com.larcangeli.monolith.adapters.persistence.implementation.Product;
 import com.larcangeli.monolith.adapters.persistence.implementation.Recommendation;
 import com.larcangeli.monolith.adapters.persistence.implementation.Review;
-import com.larcangeli.monolith.adapters.service.IProductCompositeService;
+import com.larcangeli.monolith.core.entity.implementation.ProductFactory;
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
+import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
+import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
+import com.larcangeli.monolith.core.usecase.DTO.ProductAggregateDTO;
+import com.larcangeli.monolith.core.usecase.DTO.RecommendationDTO;
+import com.larcangeli.monolith.core.usecase.DTO.ReviewDTO;
+import com.larcangeli.monolith.core.usecase.boundaries.input.CreationInputBoundary;
+import com.larcangeli.monolith.core.usecase.boundaries.input.RemovalInputBoundary;
+import com.larcangeli.monolith.core.usecase.boundaries.input.RetrievalInputBoundary;
 import com.larcangeli.monolith.util.exceptions.NotFoundException;
-import com.larcangeli.monolith.adapters.web.mapper.dto.ProductAggregateDTO;
-import com.larcangeli.monolith.adapters.web.mapper.dto.RecommendationDTO;
-import com.larcangeli.monolith.adapters.web.mapper.dto.ReviewDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,52 +30,32 @@ public class ProductCompositeController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeController.class);
 
-    private final ProductAggregateMapper productMapper;
-    private final RecommendationMapper recommendationMapper;
-    private final ReviewMapper reviewMapper;
-    private final CreationService creationService;
-    private final RemovalService removalService;
-    private final RetrievalService retrievalService;
+    private final CreationInputBoundary creationInputBoundary;
+    private final RemovalInputBoundary removalInputBoundary;
+    private final RetrievalInputBoundary retrievalInputBoundary;
 
     @Autowired
-    public ProductCompositeController(ProductAggregateMapper productMapper, RecommendationMapper recommendationMapper, ReviewMapper reviewMapper, CreationService creationService, RemovalService removalService, RetrievalService retrievalService) {
-        this.productMapper = productMapper;
-        this.recommendationMapper = recommendationMapper;
-        this.reviewMapper = reviewMapper;
-        this.creationService = creationService;
-        this.removalService = removalService;
-        this.retrievalService = retrievalService;
+    public ProductCompositeController(CreationInputBoundary creationInputBoundary, RemovalInputBoundary removalInputBoundary, RetrievalInputBoundary retrievalInputBoundary) {
+        this.creationInputBoundary = creationInputBoundary;
+        this.removalInputBoundary = removalInputBoundary;
+        this.retrievalInputBoundary = retrievalInputBoundary;
     }
 
     @GetMapping(value = "/product-composite/{productId}", produces = "application/json")
-    IProductEntity getProduct(@PathVariable Long productId){
+    ProductAggregateDTO getProduct(@PathVariable Long productId){
 
         LOG.debug("getCompositeProduct: lookup a product aggregate for productId: {}", productId);
         try{
-            IProductEntity p = retrievalService.getProduct(productId);
-
-
-
+            return retrievalInputBoundary.getProduct(productId);
 
         }catch (NotFoundException e){
             throw new NotFoundException("No product found with ID: " + productId);
         }
-
-
-
-        Set<Recommendation>     recommendations = productService.findRecommendationsByProductId(p.get().getProductId());
-        Set<Review>             reviews = productService.findReviewsByProductId(p.get().getProductId());
-
-        return createProductAggregate(p.get(), recommendations, reviews);
     }
 
     @GetMapping(value = "/product-composite", produces = "application/json")
     List<ProductAggregateDTO> getAllProducts(){
-        Iterable<Product> allProducts = productService.findAll();
-        List<ProductAggregateDTO> aggregates = new ArrayList<>();
-        allProducts.forEach(p -> aggregates.add(createProductAggregate(p, productService.findRecommendationsByProductId(p.getProductId()), productService.findReviewsByProductId(p.getProductId()))));
-
-        return aggregates;
+        return retrievalInputBoundary.getAllProducts();
     }
 
     @PostMapping(value    = "/product-composite", consumes = "application/json")
@@ -81,20 +63,7 @@ public class ProductCompositeController {
     ProductAggregateDTO createProduct(@RequestBody ProductAggregateDTO body){
         try{
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", body.productId());
-
-            Set<Recommendation> recommendations = new HashSet<>();
-            Set<Review> reviews = new HashSet<>();
-            if (body.recommendations() != null) {
-                recommendations = recommendationMapper.recommendationDTOsToRecommendations(body.recommendations());
-            }
-            if (body.reviews() != null) {
-                reviews = reviewMapper.reviewDTOsToReviews(body.reviews());
-            }
-
-            Product p = new Product(recommendations, reviews, body.name(), body.weight(), body.version());
-
-            LOG.debug("createCompositeProduct: composite entities created for productId: {}", body.productId());
-            return productMapper.productAggregateToProductAggregateDTO(productService.save(p));
+            return creationInputBoundary.createProduct(body);
 
         }catch (RuntimeException re) {
             LOG.warn("createCompositeProduct failed", re);
@@ -105,7 +74,7 @@ public class ProductCompositeController {
     @DeleteMapping(value = "/product-composite/{productId}")
     void deleteProduct(@PathVariable Long productId){
         LOG.debug("deleteCompositeProduct: Deletes a product aggregate for productId: {}", productId);
-        productService.deleteById(productId);
+        removalInputBoundary.deleteProduct(productId);
 
         LOG.debug("deleteCompositeProduct: aggregate entities deleted for productId: {}", productId);
 
@@ -114,14 +83,7 @@ public class ProductCompositeController {
     @PostMapping(value = "/product-composite/recommendation", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     RecommendationDTO createRecommendation(@RequestBody RecommendationDTO recommendation){
-        Optional<Product> p = productService.findById(recommendation.productId());
-        if(p.isEmpty()){
-            throw new NotFoundException("No product found with ID: " + recommendation.productId());
-        }
-        Recommendation r = new Recommendation(recommendation.productId(), recommendation.author(), recommendation.rating(), recommendation.content());
-        productService.saveRecommendation(r);
-
-        return recommendationMapper.recommendationToRecommendationDTO(r);
+        return creationInputBoundary.createRecommendation(recommendation);
     }
 
     @DeleteMapping(value = "/product-composite/recommendation/{recommendationId}")
@@ -129,7 +91,7 @@ public class ProductCompositeController {
         LOG.debug("deleteCompositeProduct: Deletes the recommendation with ID: {}", recommendationId);
 
         try{
-            productService.deleteRecommendation(recommendationId);
+            removalInputBoundary.deleteRecommendation(recommendationId);
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("Recommendation with ID: " + recommendationId + " not found");
         }
@@ -140,14 +102,7 @@ public class ProductCompositeController {
     @PostMapping(value = "/product-composite/review", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     ReviewDTO createReview(@RequestBody ReviewDTO review){
-        Optional<Product> p = productService.findById(review.productId());
-        if(p.isEmpty()){
-            throw new NotFoundException("No product found with ID: " + review.productId());
-        }
-        Review r = new Review(review.productId(), review.author(), review.subject(), review.content());
-        productService.saveReview(r);
-
-        return reviewMapper.reviewToReviewDTO(r);
+        return creationInputBoundary.createReview(review);
     }
 
     @DeleteMapping(value = "/product-composite/review/{reviewId}")
@@ -155,7 +110,7 @@ public class ProductCompositeController {
         LOG.debug("deleteCompositeProduct: Deletes the review with ID: {}", reviewId);
 
         try{
-            productService.deleteReview(reviewId);
+            removalInputBoundary.deleteReview(reviewId);
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("Recommendation with ID: " + reviewId + " not found");
         }
@@ -163,10 +118,10 @@ public class ProductCompositeController {
 
     }
 
-    private ProductAggregateDTO createProductAggregate(
-            Product p,
-            Set<Recommendation> recommendations,
-            Set<Review> reviews){
+    /*private IProductEntity createProductAggregate(
+            IProductEntity p,
+            Set<IRecommendationEntity> recommendations,
+            Set<IReviewEntity> reviews){
 
         // 1. Setup product info
         Long productId = p.getProductId();
@@ -187,5 +142,5 @@ public class ProductCompositeController {
                         .toList();
 
         return new ProductAggregateDTO(productId, version, name, weight, recommendationDTOs, reviewDTOs);
-    }
+    }*/
 }

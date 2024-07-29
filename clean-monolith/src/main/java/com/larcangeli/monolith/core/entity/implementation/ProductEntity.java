@@ -15,6 +15,9 @@ public class ProductEntity implements IProductEntity {
     Set<IRecommendationEntity> recommendations;
     Set<IReviewEntity> reviews;
 
+    public ProductEntity(){
+    }
+
     public ProductEntity(String name, int weight) {
         this.name = name;
         this.weight = weight;

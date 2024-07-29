@@ -11,6 +11,10 @@ public class RecommendationEntity implements IRecommendationEntity {
     private int rating;
     String content;
 
+    public RecommendationEntity(){
+
+    }
+
     public RecommendationEntity(Long productId, String author, int rating, String content) {
         this.productId = productId;
         this.author = author;

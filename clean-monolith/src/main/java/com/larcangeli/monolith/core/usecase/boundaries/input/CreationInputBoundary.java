@@ -3,15 +3,18 @@ package com.larcangeli.monolith.core.usecase.boundaries.input;
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
+import com.larcangeli.monolith.core.usecase.DTO.ProductAggregateDTO;
+import com.larcangeli.monolith.core.usecase.DTO.RecommendationDTO;
+import com.larcangeli.monolith.core.usecase.DTO.ReviewDTO;
 
 /**
  * A simple boundary that allows the Controller in the adapter layer to use all the underlying functions
  * without a direct interaction with the Use Case layer
  */
 public interface CreationInputBoundary {
-    IProductEntity createProduct(IProductEntity productAggregateDTO);
+    ProductAggregateDTO createProduct(ProductAggregateDTO product);
 
-    IRecommendationEntity createRecommendation(IRecommendationEntity recommendationDTO);
+    RecommendationDTO createRecommendation(RecommendationDTO recommendation);
 
-    IReviewEntity createReview(IReviewEntity review);
+    ReviewDTO createReview(ReviewDTO review);
 }

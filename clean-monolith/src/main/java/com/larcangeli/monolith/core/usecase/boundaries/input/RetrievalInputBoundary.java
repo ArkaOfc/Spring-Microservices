@@ -1,6 +1,7 @@
 package com.larcangeli.monolith.core.usecase.boundaries.input;
 
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
+import com.larcangeli.monolith.core.usecase.DTO.ProductAggregateDTO;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * without a direct interaction with the Use Case layer
  */
 public interface RetrievalInputBoundary {
-    IProductEntity getProduct(Long productId);
+    ProductAggregateDTO getProduct(Long productId);
 
-    List<IProductEntity> getAllProducts();
+    List<ProductAggregateDTO> getAllProducts();
 }

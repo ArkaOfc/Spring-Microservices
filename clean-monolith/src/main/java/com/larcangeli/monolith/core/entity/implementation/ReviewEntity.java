@@ -10,6 +10,10 @@ public class ReviewEntity implements IReviewEntity {
     String subject;
     String content;
 
+    public ReviewEntity(){
+
+    }
+
     public ReviewEntity(Long productId, String author, String subject, String content) {
         this.productId = productId;
         this.author = author;

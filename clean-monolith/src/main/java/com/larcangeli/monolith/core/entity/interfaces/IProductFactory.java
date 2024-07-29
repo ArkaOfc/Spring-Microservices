@@ -1,8 +1,5 @@
 package com.larcangeli.monolith.core.entity.interfaces;
 
-import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
-import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
-import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
 
 import java.util.Set;
 
