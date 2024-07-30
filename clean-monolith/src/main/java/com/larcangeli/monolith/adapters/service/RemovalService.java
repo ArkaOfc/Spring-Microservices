@@ -7,7 +7,6 @@ import com.larcangeli.monolith.adapters.persistence.repository.IProductComposite
 import com.larcangeli.monolith.core.usecase.boundaries.output.RemovalOutputBoundary;
 import com.larcangeli.monolith.util.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
