@@ -14,7 +14,6 @@ public interface RecommendationMapper {
     RecommendationEntity recommendationToRecommendationEntity(Recommendation recommendation);
     Set<RecommendationEntity> recommendationsToRecommendationEntities(Set<Recommendation> recommendations);
     Set<Recommendation> recommendationEntitiesToRecommendations(Set<IRecommendationEntity> recommendationEntities);
-
-    RecommendationEntity recommendationDTOToRecommendationEntity(RecommendationDTO r);
-    RecommendationDTO recommendationEntityToRecommendationDTO(IRecommendationEntity r);
+    RecommendationDTO recommendationEntityToRecommendationDTO(IRecommendationEntity recommendationEntity);
+    RecommendationEntity recommendationDTOToRecommendationEntity(RecommendationDTO recommendation);
 }

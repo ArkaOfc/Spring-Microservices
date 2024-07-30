@@ -1,11 +1,10 @@
 package com.larcangeli.monolith.core.entity.implementation;
 
-import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
 
 public class RecommendationEntity implements IRecommendationEntity {
+    Long recommendationId;
     Long productId;
-    Long id;
     Integer version;
     String author;
     private int rating;
@@ -15,8 +14,8 @@ public class RecommendationEntity implements IRecommendationEntity {
 
     }
 
-    public RecommendationEntity(Long productId, String author, int rating, String content) {
-        this.productId = productId;
+    public RecommendationEntity(Integer version, String author, int rating, String content) {
+        this.version = version;
         this.author = author;
         this.rating = rating;
         this.content = content;
@@ -30,14 +29,23 @@ public class RecommendationEntity implements IRecommendationEntity {
         this.content = content;
     }
 
+    public RecommendationEntity(Long recommendationId, Long productId, Integer version, String author, int rating, String content) {
+        this.recommendationId = recommendationId;
+        this.productId = productId;
+        this.version = version;
+        this.author = author;
+        this.rating = rating;
+        this.content = content;
+    }
+
     @Override
     public Long getProductId() {
         return productId;
     }
 
     @Override
-    public Long getId() {
-        return this.id;
+    public Long getRecommendationId() {
+        return this.recommendationId;
     }
 
     @Override
@@ -58,5 +66,41 @@ public class RecommendationEntity implements IRecommendationEntity {
     @Override
     public String getContent() {
         return this.content;
+    }
+
+    public void setRecommendationId(Long recommendationId) {
+        this.recommendationId = recommendationId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "RecommendationEntity{" +
+                "recommendationId=" + recommendationId +
+                ", productId=" + productId +
+                ", version=" + version +
+                ", author='" + author + '\'' +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

@@ -24,8 +24,9 @@ public class Recommendation {
     public Recommendation() {
     }
 
-    public Recommendation(Long productId, String author, int rating, String content) {
+    public Recommendation(Long productId, Integer version, String author, int rating, String content) {
         this.productId = productId;
+        this.version = version;
         this.author = author;
         this.rating = rating;
         this.content = content;
@@ -55,16 +56,17 @@ public class Recommendation {
         return content;
     }
 
+
     public void setRecommendationId(Long recommendationId) {
         this.recommendationId = recommendationId;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public void setProduct(Long productId) {
-        this.productId = productId;
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public void setAuthor(String author) {

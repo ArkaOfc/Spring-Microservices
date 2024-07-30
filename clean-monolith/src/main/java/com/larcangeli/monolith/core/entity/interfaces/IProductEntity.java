@@ -6,10 +6,10 @@ import com.larcangeli.monolith.core.entity.implementation.ReviewEntity;
 import java.util.Set;
 
 public interface IProductEntity {
-    Long getId();
+    Long getProductId();
     Integer getVersion();
     String getName();
     int getWeight();
-    Set<IReviewEntity> getReviews();
-    Set<IRecommendationEntity> getRecommendations();
+    Set<ReviewEntity> getReviews();
+    Set<RecommendationEntity> getRecommendations();
 }

@@ -118,29 +118,5 @@ public class ProductCompositeController {
 
     }
 
-    /*private IProductEntity createProductAggregate(
-            IProductEntity p,
-            Set<IRecommendationEntity> recommendations,
-            Set<IReviewEntity> reviews){
 
-        // 1. Setup product info
-        Long productId = p.getProductId();
-        String name = p.getName();
-        int weight = p.getWeight();
-        Integer version = p.getVersion();
-
-        // 2. Copy summary recommendation info, if available
-        List<RecommendationDTO> recommendationDTOs = (recommendations == null) ? null :
-                recommendations.stream()
-                        .map(r -> new RecommendationDTO(r.getRecommendationId(), r.getProductId(), r.getVersion(), r.getAuthor(), r.getRating(), r.getContent()))
-                        .toList();
-
-        // 3. Copy summary review info, if available
-        List<ReviewDTO> reviewDTOs = (reviews == null) ? null :
-                reviews.stream()
-                        .map(r -> new ReviewDTO(r.getReviewId(), r.getProductId(), r.getAuthor(), r.getSubject(), r.getContent()))
-                        .toList();
-
-        return new ProductAggregateDTO(productId, version, name, weight, recommendationDTOs, reviewDTOs);
-    }*/
 }

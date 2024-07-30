@@ -13,7 +13,7 @@ public interface ReviewMapper {
     ReviewEntity reviewToReviewEntity(Review review);
     Set<ReviewEntity> reviewsToReviewEntities(Set<Review> reviews);
     Set<Review> reviewEntitiesToReviews(Set<IReviewEntity> reviewEntities);
+    ReviewDTO reviewEntityToReviewDTO(IReviewEntity reviewEntity);
+    ReviewEntity reviewDTOToReviewEntity(ReviewDTO review);
 
-    ReviewEntity reviewDTOToReviewEntity(ReviewDTO r);
-    ReviewDTO reviewEntityToReviewDTO(IReviewEntity r);
 }

@@ -47,7 +47,7 @@ public class Review {
         return content;
     }
 
-    public void setProduct(Long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 

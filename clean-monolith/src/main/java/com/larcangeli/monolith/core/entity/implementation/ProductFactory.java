@@ -10,13 +10,13 @@ import java.util.Set;
 
 @Component
 public class ProductFactory implements IProductFactory {
-    @Override
-    public IProductEntity createProduct(Integer version, String name, int weight) {
-        return new ProductEntity(version,name,weight);
-    }
+    /*@Override
+    public IProductEntity createProduct(Long productId, Integer version, String name, int weight) {
+        return new ProductEntity(productId,version,name,weight);
+    }*/
 
     @Override
-    public IProductEntity createProduct(Integer version, String name, int weight, Set<IRecommendationEntity> recommendations, Set<IReviewEntity> reviews) {
-        return new ProductEntity(version,name,weight,recommendations,reviews);
+    public IProductEntity createProduct(Long productId, Integer version, String name, int weight, Set<RecommendationEntity> recommendations, Set<ReviewEntity> reviews) {
+        return new ProductEntity(productId,version,name,weight,recommendations,reviews);
     }
 }

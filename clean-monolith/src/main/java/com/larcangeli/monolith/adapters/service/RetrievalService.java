@@ -10,14 +10,11 @@ import com.larcangeli.monolith.adapters.web.mapper.ReviewMapper;
 import com.larcangeli.monolith.core.entity.implementation.RecommendationEntity;
 import com.larcangeli.monolith.core.entity.implementation.ReviewEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
-import com.larcangeli.monolith.core.entity.interfaces.IRecommendationEntity;
-import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
 import com.larcangeli.monolith.core.usecase.boundaries.output.RetrievalOutputBoundary;
 import com.larcangeli.monolith.util.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class RetrievalService implements RetrievalOutputBoundary {
@@ -45,9 +42,8 @@ public class RetrievalService implements RetrievalOutputBoundary {
 
     @Override
     public List<IProductEntity> getAllProducts() {
-        List<IProductEntity> products = new ArrayList<>();
-        productRepository.findAll().forEach(p -> products.add(productMapper.productAggregateToProductEntity(p)));
-        return products;
+        List<Product> products = productRepository.findAll().stream().toList();
+        return new ArrayList<>(productMapper.productAggregatesToProductEntities(products));
     }
 
     @Override
@@ -66,3 +62,4 @@ public class RetrievalService implements RetrievalOutputBoundary {
         }else throw new NoSuchElementException();
     }
 }
+

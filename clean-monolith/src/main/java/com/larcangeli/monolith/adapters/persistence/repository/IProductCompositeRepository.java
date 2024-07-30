@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 public interface IProductCompositeRepository extends CrudRepository<Product, Long> {
+
+    List<Product> findAll();
+
     @Query("SELECT r FROM Review r WHERE r.productId = :productId")
     Set<Review> findReviewsByProductId(Long productId);
 

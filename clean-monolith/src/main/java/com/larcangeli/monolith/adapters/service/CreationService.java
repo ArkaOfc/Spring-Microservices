@@ -45,7 +45,7 @@ public class CreationService implements CreationOutputBoundary {
             Recommendation r = recommendationMapper.recommendationEntityToRecommendation(recommendation);
             product.addRecommendation(r);
             productRepository.save(product);
-            return recommendation;
+            return recommendationMapper.recommendationToRecommendationEntity(r);
         }else throw new NoSuchElementException();
     }
 
@@ -57,7 +57,7 @@ public class CreationService implements CreationOutputBoundary {
             Review r = reviewMapper.reviewEntityToReview(review);
             product.addReview(r);
             productRepository.save(product);
-            return review;
+            return reviewMapper.reviewToReviewEntity(r);
         }else throw new NoSuchElementException();
     }
 

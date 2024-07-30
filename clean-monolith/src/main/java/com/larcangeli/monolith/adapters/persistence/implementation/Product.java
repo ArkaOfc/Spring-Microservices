@@ -1,8 +1,6 @@
 package com.larcangeli.monolith.adapters.persistence.implementation;
 
 import jakarta.persistence.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Version;
 
 import java.util.*;
@@ -49,7 +47,8 @@ public class Product {
         this.weight = weight;
     }
 
-    public Product(Set<Recommendation> recommendations, Set<Review> reviews, String name, int weight, Integer version) {
+
+    public Product(String name, int weight, Integer version, Set<Recommendation> recommendations, Set<Review> reviews) {
         this.recommendations = recommendations;
         this.reviews = reviews;
         this.name = name;
@@ -89,7 +88,7 @@ public class Product {
         this.version = version;
     }
 
-    public Set<Recommendation> getAllRecommendations() {
+    public Set<Recommendation> getRecommendations() {
         return recommendations;
     }
 
@@ -101,11 +100,11 @@ public class Product {
         }
     }
 
-    public void setAllRecommendations(Set<Recommendation> recommendations) {
+    public void setRecommendations(Set<Recommendation> recommendations) {
         this.recommendations = recommendations;
     }
 
-    public void deleteAllRecommendations() {
+    public void deleteRecommendations() {
         recommendations.clear();
     }
 
@@ -117,11 +116,11 @@ public class Product {
         recommendations.remove(r);
     }
 
-    public Set<Review> getAllReviews() {
+    public Set<Review> getReviews() {
         return reviews;
     }
 
-    public void setAllReviews(Set<Review> reviews) {
+    public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
 
@@ -133,7 +132,7 @@ public class Product {
         }
     }
 
-    public void deleteAllReviews() {
+    public void deleteReviews() {
         reviews.clear();
     }
 

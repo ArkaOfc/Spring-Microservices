@@ -4,8 +4,8 @@ import com.larcangeli.monolith.core.entity.interfaces.IProductEntity;
 import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
 
 public class ReviewEntity implements IReviewEntity {
+    Long reviewId;
     Long productId;
-    Long id;
     String author;
     String subject;
     String content;
@@ -14,7 +14,21 @@ public class ReviewEntity implements IReviewEntity {
 
     }
 
+    public ReviewEntity(String author, String subject, String content) {
+        this.author = author;
+        this.subject = subject;
+        this.content = content;
+    }
+
     public ReviewEntity(Long productId, String author, String subject, String content) {
+        this.productId = productId;
+        this.author = author;
+        this.subject = subject;
+        this.content = content;
+    }
+
+    public ReviewEntity(Long reviewId, Long productId, String author, String subject, String content) {
+        this.reviewId = reviewId;
         this.productId = productId;
         this.author = author;
         this.subject = subject;
@@ -27,8 +41,8 @@ public class ReviewEntity implements IReviewEntity {
     }
 
     @Override
-    public Long getId() {
-        return this.id;
+    public Long getReviewId() {
+        return this.reviewId;
     }
 
     @Override
@@ -45,4 +59,36 @@ public class ReviewEntity implements IReviewEntity {
     public String getSubject() {
         return this.subject;
     }
+
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewEntity{" +
+                "reviewId=" + reviewId +
+                ", productId=" + productId +
+                ", author='" + author + '\'' +
+                ", subject='" + subject + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }
+

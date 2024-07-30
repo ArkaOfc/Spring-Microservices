@@ -6,30 +6,22 @@ import com.larcangeli.monolith.core.entity.interfaces.IReviewEntity;
 
 import java.util.Set;
 
+
 public class ProductEntity implements IProductEntity {
 
-    Long id;
+    Long productId;
     Integer version;
     String name;
     int weight;
-    Set<IRecommendationEntity> recommendations;
-    Set<IReviewEntity> reviews;
+    Set<RecommendationEntity> recommendations;
+    Set<ReviewEntity> reviews;
 
     public ProductEntity(){
+
     }
 
-    public ProductEntity(String name, int weight) {
-        this.name = name;
-        this.weight = weight;
-    }
-
-    public ProductEntity(Integer version, String name, int weight) {
-        this.version = version;
-        this.name = name;
-        this.weight = weight;
-    }
-
-    public ProductEntity(Integer version, String name, int weight, Set<IRecommendationEntity> recommendations, Set<IReviewEntity> reviews) {
+    public ProductEntity(Long productId, Integer version, String name, int weight, Set<RecommendationEntity> recommendations, Set<ReviewEntity> reviews) {
+        this.productId = productId;
         this.version = version;
         this.name = name;
         this.weight = weight;
@@ -38,8 +30,8 @@ public class ProductEntity implements IProductEntity {
     }
 
     @Override
-    public Long getId() {
-        return this.id;
+    public Long getProductId() {
+        return this.productId;
     }
 
     @Override
@@ -58,12 +50,48 @@ public class ProductEntity implements IProductEntity {
     }
 
     @Override
-    public Set<IReviewEntity> getReviews() {
+    public Set<ReviewEntity> getReviews() {
         return reviews;
     }
 
     @Override
-    public Set<IRecommendationEntity> getRecommendations() {
+    public Set<RecommendationEntity> getRecommendations() {
         return recommendations;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setRecommendations(Set<RecommendationEntity> recommendations) {
+        this.recommendations = recommendations;
+    }
+
+    public void setReviews(Set<ReviewEntity> reviews) {
+        this.reviews = reviews;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductEntity{" +
+                "id=" + productId +
+                ", version=" + version +
+                ", name='" + name + '\'' +
+                ", weight=" + weight +
+                ", recommendations=" + recommendations +
+                ", reviews=" + reviews +
+                '}';
     }
 }
