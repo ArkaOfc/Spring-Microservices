@@ -16,8 +16,6 @@ import java.util.*;
 @Service
 public class ProductCompositeService implements IProductCompositeService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeController.class);
-
     private final IProductCompositeRepository productRepository;
 
     public ProductCompositeService(IProductCompositeRepository productRepository) {
