@@ -33,8 +33,8 @@ public class CreationService implements CreationOutputBoundary {
 
     @Override
     public IProductEntity saveProduct(IProductEntity product) {
-        Product p = productRepository.save(productMapper.productEntityToProductAggregate(product));
-        return productMapper.productAggregateToProductEntity(p);
+        Product p = productRepository.save(productMapper.entityToPersistence(product));
+        return productMapper.persistenceToEntity(p);
     }
 
     @Override
@@ -42,10 +42,10 @@ public class CreationService implements CreationOutputBoundary {
         Optional<Product> p = productRepository.findById(recommendation.getProductId());
         if(p.isPresent()){
             Product product = p.get();
-            Recommendation r = recommendationMapper.recommendationEntityToRecommendation(recommendation);
+            Recommendation r = recommendationMapper.entityToPersistence(recommendation);
             product.addRecommendation(r);
             productRepository.save(product);
-            return recommendationMapper.recommendationToRecommendationEntity(r);
+            return recommendationMapper.persistenceToEntity(r);
         }else throw new NoSuchElementException();
     }
 
@@ -54,10 +54,10 @@ public class CreationService implements CreationOutputBoundary {
         Optional<Product> p = productRepository.findById(review.getProductId());
         if(p.isPresent()){
             Product product = p.get();
-            Review r = reviewMapper.reviewEntityToReview(review);
+            Review r = reviewMapper.entityToPersistence(review);
             product.addReview(r);
             productRepository.save(product);
-            return reviewMapper.reviewToReviewEntity(r);
+            return reviewMapper.persistenceToEntity(r);
         }else throw new NoSuchElementException();
     }
 

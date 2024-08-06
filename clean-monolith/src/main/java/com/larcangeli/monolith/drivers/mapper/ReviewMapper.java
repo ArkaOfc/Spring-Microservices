@@ -9,11 +9,11 @@ import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
-    Review reviewEntityToReview(IReviewEntity reviewEntity);
-    ReviewEntity reviewToReviewEntity(Review review);
-    Set<ReviewEntity> reviewsToReviewEntities(Set<Review> reviews);
-    Set<Review> reviewEntitiesToReviews(Set<IReviewEntity> reviewEntities);
-    ReviewDTO reviewEntityToReviewDTO(IReviewEntity reviewEntity);
-    ReviewEntity reviewDTOToReviewEntity(ReviewDTO review);
+    Review entityToPersistence(IReviewEntity reviewEntity);
+    ReviewEntity persistenceToEntity(Review review);
+    Set<ReviewEntity> persistenceToEntities(Set<Review> reviews);
+    Set<Review> entitiesToPersistence(Set<IReviewEntity> reviewEntities);
+    ReviewDTO entityToDto(IReviewEntity reviewEntity);
+    ReviewEntity dtoToEntity(ReviewDTO review);
 
 }

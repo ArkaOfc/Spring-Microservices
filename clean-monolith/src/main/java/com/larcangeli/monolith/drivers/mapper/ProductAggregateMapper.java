@@ -11,10 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductAggregateMapper {
 
-    Product productEntityToProductAggregate(IProductEntity productEntity);
-    ProductEntity productAggregateToProductEntity(Product product);
-    List<ProductEntity> productAggregatesToProductEntities(List<Product> products);
-    List<Product> productEntitiesToProductAggregates(List<IProductEntity> productEntities);
-    ProductAggregateDTO productEntityToProductDTO(IProductEntity productEntities);
-    ProductEntity productDTOToProductEntity(ProductAggregateDTO product);
+    Product entityToPersistence(IProductEntity productEntity);
+    ProductEntity persistenceToEntity(Product product);
+    List<ProductEntity> persistenceToEntities(List<Product> products);
+    List<Product> entitiesToPersistence(List<IProductEntity> productEntities);
+    ProductAggregateDTO entityToDto(IProductEntity productEntities);
+    ProductEntity dtoToEntity(ProductAggregateDTO product);
 }

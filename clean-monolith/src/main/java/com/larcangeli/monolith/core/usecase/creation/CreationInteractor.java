@@ -22,7 +22,6 @@ import java.util.Set;
 @Component
 public class CreationInteractor implements CreationInputBoundary {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeController.class);
     final IProductFactory productFactory;
     final IRecommendationFactory recommendationFactory;
     final IReviewFactory reviewFactory;

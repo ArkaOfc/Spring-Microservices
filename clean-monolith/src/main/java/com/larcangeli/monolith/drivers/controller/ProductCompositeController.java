@@ -45,7 +45,7 @@ public class ProductCompositeController {
 
         LOG.debug("getCompositeProduct: lookup a product aggregate for productId: {}", productId);
         try{
-            return productMapper.productEntityToProductDTO(retrievalInputBoundary.getProduct(productId));
+            return productMapper.entityToDto(retrievalInputBoundary.getProduct(productId));
 
         }catch (NotFoundException e){
             throw new NotFoundException("No product found with ID: " + productId);
@@ -54,7 +54,7 @@ public class ProductCompositeController {
 
     @GetMapping(value = "/product-composite", produces = "application/json")
     List<ProductAggregateDTO> getAllProducts(){
-        return retrievalInputBoundary.getAllProducts().stream().map(productMapper::productEntityToProductDTO).toList();
+        return retrievalInputBoundary.getAllProducts().stream().map(productMapper::entityToDto).toList();
     }
 
     @PostMapping(value    = "/product-composite", consumes = "application/json")
@@ -62,7 +62,7 @@ public class ProductCompositeController {
     ProductAggregateDTO createProduct(@RequestBody ProductAggregateDTO request){
         try{
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", request.productId());
-            return productMapper.productEntityToProductDTO(creationInputBoundary.createProduct(productMapper.productDTOToProductEntity(request)));
+            return productMapper.entityToDto(creationInputBoundary.createProduct(productMapper.dtoToEntity(request)));
 
         }catch (RuntimeException re) {
             LOG.warn("createCompositeProduct failed", re);
@@ -82,7 +82,7 @@ public class ProductCompositeController {
     @PostMapping(value = "/product-composite/recommendation", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     RecommendationDTO createRecommendation(@RequestBody RecommendationDTO recommendation){
-        return recommendationMapper.recommendationEntityToRecommendationDTO(creationInputBoundary.createRecommendation(recommendationMapper.recommendationDTOToRecommendationEntity(recommendation)));
+        return recommendationMapper.entityToDto(creationInputBoundary.createRecommendation(recommendationMapper.dtoToEntity(recommendation)));
     }
 
     @DeleteMapping(value = "/product-composite/recommendation/{recommendationId}")
@@ -101,7 +101,7 @@ public class ProductCompositeController {
     @PostMapping(value = "/product-composite/review", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     ReviewDTO createReview(@RequestBody ReviewDTO review){
-        return reviewMapper.reviewEntityToReviewDTO(creationInputBoundary.createReview(reviewMapper.reviewDTOToReviewEntity(review)));
+        return reviewMapper.entityToDto(creationInputBoundary.createReview(reviewMapper.dtoToEntity(review)));
     }
 
     @DeleteMapping(value = "/product-composite/review/{reviewId}")

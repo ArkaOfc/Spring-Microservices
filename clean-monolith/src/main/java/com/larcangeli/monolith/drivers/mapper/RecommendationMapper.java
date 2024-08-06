@@ -10,10 +10,10 @@ import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface RecommendationMapper {
-    Recommendation recommendationEntityToRecommendation(IRecommendationEntity recommendationEntity);
-    RecommendationEntity recommendationToRecommendationEntity(Recommendation recommendation);
-    Set<RecommendationEntity> recommendationsToRecommendationEntities(Set<Recommendation> recommendations);
-    Set<Recommendation> recommendationEntitiesToRecommendations(Set<IRecommendationEntity> recommendationEntities);
-    RecommendationDTO recommendationEntityToRecommendationDTO(IRecommendationEntity recommendationEntity);
-    RecommendationEntity recommendationDTOToRecommendationEntity(RecommendationDTO recommendation);
+    Recommendation entityToPersistence(IRecommendationEntity recommendationEntity);
+    RecommendationEntity persistenceToEntity(Recommendation recommendation);
+    Set<RecommendationEntity> persistenceToEntities(Set<Recommendation> recommendations);
+    Set<Recommendation> entitiesToPersistence(Set<IRecommendationEntity> recommendationEntities);
+    RecommendationDTO entityToDto(IRecommendationEntity recommendationEntity);
+    RecommendationEntity dtoToEntity(RecommendationDTO recommendation);
 }

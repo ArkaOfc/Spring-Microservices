@@ -35,7 +35,7 @@ public class RetrievalService implements RetrievalOutputBoundary {
     public IProductEntity getProduct(Long productId) {
         Optional<Product> p = productRepository.findById(productId);
         if(p.isPresent()){
-            return productMapper.productAggregateToProductEntity(p.get());
+            return productMapper.persistenceToEntity(p.get());
         }else throw new NotFoundException();
 
     }
@@ -43,14 +43,14 @@ public class RetrievalService implements RetrievalOutputBoundary {
     @Override
     public List<IProductEntity> getAllProducts() {
         List<Product> products = productRepository.findAll().stream().toList();
-        return new ArrayList<>(productMapper.productAggregatesToProductEntities(products));
+        return new ArrayList<>(productMapper.persistenceToEntities(products));
     }
 
     @Override
     public Set<RecommendationEntity> findRecommendationsByProductId(Long productId) {
         if(productRepository.findById(productId).isPresent()){
             Set<Recommendation> set = productRepository.findRecommendationsByProductId(productId);
-            return recommendationMapper.recommendationsToRecommendationEntities(set);
+            return recommendationMapper.persistenceToEntities(set);
         }else throw new NoSuchElementException();
     }
 
@@ -58,7 +58,7 @@ public class RetrievalService implements RetrievalOutputBoundary {
     public Set<ReviewEntity> findReviewsByProductId(Long productId) {
         if(productRepository.findById(productId).isPresent()){
             Set<Review> set = productRepository.findReviewsByProductId(productId);
-            return reviewMapper.reviewsToReviewEntities(set);
+            return reviewMapper.persistenceToEntities(set);
         }else throw new NoSuchElementException();
     }
 }
