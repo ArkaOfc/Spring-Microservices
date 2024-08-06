@@ -1,8 +1,8 @@
 package com.larcangeli.monolith.product.domain;
 
 import com.larcangeli.monolith.exceptions.InvalidInputException;
-import com.larcangeli.monolith.product.IProductService;
-import com.larcangeli.monolith.product.ProductDTO;
+import com.larcangeli.monolith.product.shared.IProductService;
+import com.larcangeli.monolith.product.shared.ProductDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +12,12 @@ import java.util.List;
 @Service
 class ProductService implements IProductService {
 
-    private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
+    private final ProductRepository repo;
+    private final ProductMapper mapper;
 
     public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
-        this.productRepository = productRepository;
-        this.productMapper = productMapper;
+        this.repo = productRepository;
+        this.mapper = productMapper;
     }
 
     public ProductDTO findById(Long id){
@@ -25,25 +25,25 @@ class ProductService implements IProductService {
             throw new InvalidInputException("Invalid productId: " + id);
         }
 
-        Product entity = productRepository.findById(id)
+        Product entity = repo.findById(id)
                 .orElseThrow(() -> ProductNotFoundException.forId(id));
-            return productMapper.productToProductDTO(entity);
+            return mapper.toDTO(entity);
     }
 
 
     public Collection<ProductDTO> findAll(){
         List<ProductDTO> products = new ArrayList<>();
-        productRepository.findAll().forEach(p -> products.add(productMapper.productToProductDTO(p)));
+        repo.findAll().forEach(p -> products.add(mapper.toDTO(p)));
         return products;
     }
 
 
     public ProductDTO save(ProductDTO product) {
-        return productMapper.productToProductDTO(productRepository.save(productMapper.productDTOToProduct(product)));
+        return mapper.toDTO(repo.save(mapper.toEntity(product)));
     }
 
 
     public void deleteById(Long id) {
-        productRepository.findById(id).ifPresent(productRepository::delete);
+        repo.findById(id).ifPresent(repo::delete);
     }
 }

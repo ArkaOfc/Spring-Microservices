@@ -1,7 +1,7 @@
 package com.larcangeli.monolith.recommendation.web.controllers;
 
-import com.larcangeli.monolith.recommendation.RecommendationDTO;
-import com.larcangeli.monolith.recommendation.IRecommendationService;
+import com.larcangeli.monolith.recommendation.shared.RecommendationDTO;
+import com.larcangeli.monolith.recommendation.shared.IRecommendationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

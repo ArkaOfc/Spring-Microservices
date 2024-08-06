@@ -1,7 +1,8 @@
 package com.larcangeli.monolith.review.domain;
 
-import com.larcangeli.monolith.review.IReviewService;
-import com.larcangeli.monolith.review.ReviewDTO;
+import com.larcangeli.monolith.review.shared.IReviewService;
+import com.larcangeli.monolith.review.shared.ReviewDTO;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -9,34 +10,39 @@ import java.util.*;
 @Service
 class ReviewService implements IReviewService {
 
-    private final ReviewRepository reviewRepository;
-    private final ReviewMapper reviewMapper;
+    private final ReviewRepository repo;
+    private final ReviewMapper mapper;
 
     public ReviewService(ReviewRepository reviewRepository, ReviewMapper reviewMapper) {
-        this.reviewRepository = reviewRepository;
-        this.reviewMapper = reviewMapper;
+        this.repo = reviewRepository;
+        this.mapper = reviewMapper;
     }
 
     @Override
     public ReviewDTO save(ReviewDTO review) {
-        return reviewMapper.reviewToReviewDTO(reviewRepository.save(reviewMapper.reviewDTOToReview(review)));
+        return mapper.toDTO(repo.save(mapper.toEntity(review)));
+    }
+
+    @Override
+    public void saveReviewOnProductCreation(ReviewDTO review) {
+        repo.save(mapper.toEntity(review));
     }
 
     @Override
     public void deleteById(Long reviewId) {
-        if(reviewRepository.findById(reviewId).isPresent())
-           reviewRepository.deleteById(reviewId);
+        if(repo.findById(reviewId).isPresent())
+           repo.deleteById(reviewId);
         else throw ReviewNotFoundException.forId(reviewId);
     }
 
-    @Override
+    @EventListener
     public void deleteReviews(Long productId) {
-        reviewRepository.deleteAll(reviewRepository.findRecommendationsByProductId(productId));
+        repo.deleteAll(repo.findRecommendationsByProductId(productId));
     }
 
 
     @Override
     public List<ReviewDTO> findReviewsByProductId(Long productId) {
-        return reviewMapper.reviewsToReviewDTOs(reviewRepository.findRecommendationsByProductId(productId));
+        return mapper.toDTOs(repo.findRecommendationsByProductId(productId));
     }
 }

@@ -1,4 +1,4 @@
-package com.larcangeli.monolith.recommendation;
+package com.larcangeli.monolith.recommendation.shared;
 
 public record RecommendationDTO(Long recommendationId,
                                 Long productId,

@@ -1,7 +1,7 @@
 package com.larcangeli.monolith.review.web.controllers;
 
-import com.larcangeli.monolith.review.ReviewDTO;
-import com.larcangeli.monolith.review.IReviewService;
+import com.larcangeli.monolith.review.shared.ReviewDTO;
+import com.larcangeli.monolith.review.shared.IReviewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
