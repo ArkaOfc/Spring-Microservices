@@ -22,9 +22,9 @@ public class RecommendationController {
         this.recommendationService = recommendationService;
     }
 
-    @PostMapping(value = "/product-composite/recommendation", consumes = "application/json")
+    @PostMapping(value = "/product-composite/{productId}/recommendations", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationDTO createRecommendation(@RequestBody RecommendationDTO recommendation){
+    RecommendationDTO createRecommendation(@PathVariable Long productId, @RequestBody RecommendationDTO recommendation){
         LOG.debug("deleteCompositeProduct: Creates the recommendation with ID: {}", recommendation.recommendationId());
 
         try{
@@ -36,8 +36,8 @@ public class RecommendationController {
         }
     }
 
-    @DeleteMapping(value = "/product-composite/recommendation/{recommendationId}")
-    void deleteRecommendation(@PathVariable Long recommendationId){
+    @DeleteMapping(value = "/product-composite/{productId}/recommendations/{recommendationId}")
+    void deleteRecommendation(@PathVariable Long productId, @PathVariable Long recommendationId){
         LOG.debug("deleteCompositeProduct: Deletes the recommendation with ID: {}", recommendationId);
 
         try{

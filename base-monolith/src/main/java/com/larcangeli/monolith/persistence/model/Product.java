@@ -11,8 +11,6 @@ import java.util.*;
 @Entity
 public class Product {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeController.class);
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;

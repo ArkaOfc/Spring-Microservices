@@ -57,7 +57,9 @@ public class ProductCompositeController {
     List<ProductAggregateDTO> getAllProducts(){
         Iterable<Product> allProducts = productService.findAll();
         List<ProductAggregateDTO> aggregates = new ArrayList<>();
-        allProducts.forEach(p -> aggregates.add(createProductAggregate(p, productService.findRecommendationsByProductId(p.getProductId()), productService.findReviewsByProductId(p.getProductId()))));
+        allProducts.forEach(p -> aggregates.add(createProductAggregate(p,
+                productService.findRecommendationsByProductId(p.getProductId()),
+                productService.findReviewsByProductId(p.getProductId()))));
 
         return aggregates;
     }
@@ -97,25 +99,25 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value = "/product-composite/recommendation", consumes = "application/json")
+    @PostMapping(value = "/product-composite/{productId}/recommendations", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationDTO createRecommendation(@RequestBody RecommendationDTO recommendation){
-        Optional<Product> p = productService.findById(recommendation.productId());
+    RecommendationDTO createRecommendation(@PathVariable Long productId, @RequestBody RecommendationDTO recommendation){
+        Optional<Product> p = productService.findById(productId);
         if(p.isEmpty()){
             throw new NotFoundException("No product found with ID: " + recommendation.productId());
         }
-        Recommendation r = new Recommendation(recommendation.productId(), recommendation.author(), recommendation.rating(), recommendation.content());
+        Recommendation r = new Recommendation(productId, recommendation.author(), recommendation.rating(), recommendation.content());
         productService.saveRecommendation(r);
 
         return recommendationMapper.recommendationToRecommendationDTO(r);
     }
 
-    @DeleteMapping(value = "/product-composite/recommendation/{recommendationId}")
-    void deleteRecommendation(@PathVariable Long recommendationId){
+    @DeleteMapping(value = "/product-composite/{productId}/recommendations/{recommendationId}")
+    void deleteRecommendation(@PathVariable Long productId, @PathVariable Long recommendationId){
         LOG.debug("deleteCompositeProduct: Deletes the recommendation with ID: {}", recommendationId);
 
         try{
-            productService.deleteRecommendation(recommendationId);
+            productService.deleteRecommendation(productId, recommendationId);
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("Recommendation with ID: " + recommendationId + " not found");
         }
@@ -123,25 +125,25 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value = "/product-composite/review", consumes = "application/json")
+    @PostMapping(value = "/product-composite/{productId}/reviews", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    ReviewDTO createReview(@RequestBody ReviewDTO review){
-        Optional<Product> p = productService.findById(review.productId());
+    ReviewDTO createReview(@PathVariable Long productId, @RequestBody ReviewDTO review){
+        Optional<Product> p = productService.findById(productId);
         if(p.isEmpty()){
             throw new NotFoundException("No product found with ID: " + review.productId());
         }
-        Review r = new Review(review.productId(), review.author(), review.subject(), review.content());
+        Review r = new Review(productId, review.author(), review.subject(), review.content());
         productService.saveReview(r);
 
         return reviewMapper.reviewToReviewDTO(r);
     }
 
-    @DeleteMapping(value = "/product-composite/review/{reviewId}")
-    void deleteReview(@PathVariable Long reviewId){
+    @DeleteMapping(value = "/product-composite/{productId}/reviews/{reviewId}")
+    void deleteReview(@PathVariable Long productId, @PathVariable Long reviewId){
         LOG.debug("deleteCompositeProduct: Deletes the review with ID: {}", reviewId);
 
         try{
-            productService.deleteReview(reviewId);
+            productService.deleteReview(productId, reviewId);
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("Recommendation with ID: " + reviewId + " not found");
         }

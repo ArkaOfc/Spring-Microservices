@@ -22,12 +22,12 @@ public class RemovalInteractor implements RemovalInputBoundary {
     }
 
     @Override
-    public void deleteRecommendation(Long recommendationId) {
-        removalOutputBoundary.deleteRecommendation(recommendationId);
+    public void deleteRecommendation(Long productId, Long recommendationId) {
+        removalOutputBoundary.deleteRecommendation(productId, recommendationId);
     }
 
     @Override
-    public void deleteReview(Long reviewId) {
-        removalOutputBoundary.deleteReview(reviewId);
+    public void deleteReview(Long productId, Long reviewId) {
+        removalOutputBoundary.deleteReview(productId, reviewId);
     }
 }

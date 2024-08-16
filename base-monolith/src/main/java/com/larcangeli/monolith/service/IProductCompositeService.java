@@ -22,9 +22,9 @@ public interface IProductCompositeService {
 
     void saveReview(Review review);
 
-    void deleteRecommendation(Long recommendationId);
+    void deleteRecommendation(Long productId, Long recommendationId);
 
-    void deleteReview(Long reviewId);
+    void deleteReview(Long productId, Long reviewId);
 
     Set<Recommendation> findRecommendationsByProductId(Long productId);
 

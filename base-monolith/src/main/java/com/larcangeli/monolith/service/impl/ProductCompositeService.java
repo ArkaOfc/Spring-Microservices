@@ -65,9 +65,9 @@ public class ProductCompositeService implements IProductCompositeService {
     }
 
     @Override
-    public void deleteRecommendation(Long recommendationId) {
+    public void deleteRecommendation(Long productId, Long recommendationId) {
         Recommendation r = productRepository.findRecommendation(recommendationId);
-        Optional<Product> p = productRepository.findById(r.getProductId());
+        Optional<Product> p = productRepository.findById(productId);
         if(p.isPresent()){
             Product product = p.get();
             product.removeRecommendation(r);
@@ -76,9 +76,9 @@ public class ProductCompositeService implements IProductCompositeService {
     }
 
     @Override
-    public void deleteReview(Long reviewId) {
+    public void deleteReview(Long productId, Long reviewId) {
         Review r = productRepository.findReview(reviewId);
-        Optional<Product> p = productRepository.findById(r.getProductId());
+        Optional<Product> p = productRepository.findById(productId);
         if(p.isPresent()){
             Product product = p.get();
             product.removeReview(r);

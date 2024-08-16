@@ -22,7 +22,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping(value = "/product-composite/review", consumes = "application/json")
+    @PostMapping(value = "/product-composite/{productId}/reviews", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     ReviewDTO createReview(@RequestBody ReviewDTO review){
         LOG.debug("deleteCompositeProduct: Creates the review with ID: {}", review.reviewId());
@@ -36,7 +36,7 @@ public class ReviewController {
         }
     }
 
-    @DeleteMapping(value = "/product-composite/review/{reviewId}")
+    @DeleteMapping(value = "/product-composite/{productId}/reviews/{reviewId}")
     void deleteReview(@PathVariable Long reviewId){
         LOG.debug("deleteCompositeProduct: Deletes the review with ID: {}", reviewId);
 

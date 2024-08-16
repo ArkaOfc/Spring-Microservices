@@ -79,18 +79,18 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value = "/product-composite/recommendation", consumes = "application/json")
+    @PostMapping(value = "/product-composite/{productId}/recommendations", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationDTO createRecommendation(@RequestBody RecommendationDTO recommendation){
+    RecommendationDTO createRecommendation(@PathVariable Long productId, @RequestBody RecommendationDTO recommendation){
         return recommendationMapper.entityToDto(creationInputBoundary.createRecommendation(recommendationMapper.dtoToEntity(recommendation)));
     }
 
-    @DeleteMapping(value = "/product-composite/recommendation/{recommendationId}")
-    void deleteRecommendation(@PathVariable Long recommendationId){
+    @DeleteMapping(value = "/product-composite/{productId}/recommendations/{recommendationId}")
+    void deleteRecommendation(@PathVariable Long productId, @PathVariable Long recommendationId){
         LOG.debug("deleteCompositeProduct: Deletes the recommendation with ID: {}", recommendationId);
 
         try{
-            removalInputBoundary.deleteRecommendation(recommendationId);
+            removalInputBoundary.deleteRecommendation(productId, recommendationId);
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("Recommendation with ID: " + recommendationId + " not found");
         }
@@ -98,18 +98,18 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value = "/product-composite/review", consumes = "application/json")
+    @PostMapping(value = "/product-composite/{productId}/reviews", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    ReviewDTO createReview(@RequestBody ReviewDTO review){
+    ReviewDTO createReview(@PathVariable Long productId, @RequestBody ReviewDTO review){
         return reviewMapper.entityToDto(creationInputBoundary.createReview(reviewMapper.dtoToEntity(review)));
     }
 
-    @DeleteMapping(value = "/product-composite/review/{reviewId}")
-    void deleteReview(@PathVariable Long reviewId){
+    @DeleteMapping(value = "/product-composite/{productId}/reviews/{reviewId}")
+    void deleteReview(@PathVariable Long productId, @PathVariable Long reviewId){
         LOG.debug("deleteCompositeProduct: Deletes the review with ID: {}", reviewId);
 
         try{
-            removalInputBoundary.deleteReview(reviewId);
+            removalInputBoundary.deleteReview(productId, reviewId);
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("Recommendation with ID: " + reviewId + " not found");
         }

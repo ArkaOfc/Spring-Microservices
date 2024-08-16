@@ -7,7 +7,7 @@ package com.larcangeli.monolith.core.usecase.removal;
 public interface RemovalOutputBoundary {
     void deleteProduct(Long productId);
 
-    void deleteRecommendation(Long recommendationId);
+    void deleteRecommendation(Long productId, Long recommendationId);
 
-    void deleteReview(Long reviewId);
+    void deleteReview(Long productId, Long reviewId);
 }
