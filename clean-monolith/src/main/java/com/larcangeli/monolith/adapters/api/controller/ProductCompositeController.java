@@ -1,15 +1,15 @@
-package com.larcangeli.monolith.drivers.controller;
+package com.larcangeli.monolith.adapters.api.controller;
 
-import com.larcangeli.monolith.drivers.dto.ProductAggregateDTO;
-import com.larcangeli.monolith.drivers.dto.RecommendationDTO;
-import com.larcangeli.monolith.drivers.dto.ReviewDTO;
+import com.larcangeli.monolith.adapters.api.dto.ProductAggregateDTO;
+import com.larcangeli.monolith.adapters.api.dto.RecommendationDTO;
+import com.larcangeli.monolith.adapters.api.dto.ReviewDTO;
 import com.larcangeli.monolith.core.usecase.creation.CreationInputBoundary;
 import com.larcangeli.monolith.core.usecase.removal.RemovalInputBoundary;
 import com.larcangeli.monolith.core.usecase.retrieval.RetrievalInputBoundary;
-import com.larcangeli.monolith.drivers.mapper.ProductAggregateMapper;
-import com.larcangeli.monolith.drivers.mapper.RecommendationMapper;
-import com.larcangeli.monolith.drivers.mapper.ReviewMapper;
-import com.larcangeli.monolith.drivers.util.exceptions.NotFoundException;
+import com.larcangeli.monolith.adapters.api.mapper.ProductAggregateMapper;
+import com.larcangeli.monolith.adapters.api.mapper.RecommendationMapper;
+import com.larcangeli.monolith.adapters.api.mapper.ReviewMapper;
+import com.larcangeli.monolith.adapters.api.util.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.larcangeli.monolith.drivers.util;
+package com.larcangeli.monolith.adapters.api.util;
 
 import org.springframework.http.HttpStatus;
 import java.time.ZonedDateTime;

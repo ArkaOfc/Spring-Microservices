@@ -5,7 +5,7 @@ import com.larcangeli.monolith.adapters.persistence.implementation.Recommendatio
 import com.larcangeli.monolith.adapters.persistence.implementation.Review;
 import com.larcangeli.monolith.adapters.persistence.repository.IProductCompositeRepository;
 import com.larcangeli.monolith.core.usecase.removal.RemovalOutputBoundary;
-import com.larcangeli.monolith.drivers.util.exceptions.NotFoundException;
+import com.larcangeli.monolith.adapters.api.util.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
 import java.util.Optional;

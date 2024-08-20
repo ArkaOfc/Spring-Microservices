@@ -1,6 +1,5 @@
 package com.larcangeli.monolith.core.usecase.creation;
 
-import com.larcangeli.monolith.drivers.controller.ProductCompositeController;
 import com.larcangeli.monolith.core.entity.recommendation.impl.RecommendationEntity;
 import com.larcangeli.monolith.core.entity.review.impl.ReviewEntity;
 import com.larcangeli.monolith.core.entity.product.IProductFactory;
@@ -9,8 +8,6 @@ import com.larcangeli.monolith.core.entity.review.IReviewFactory;
 import com.larcangeli.monolith.core.entity.product.IProductEntity;
 import com.larcangeli.monolith.core.entity.recommendation.IRecommendationEntity;
 import com.larcangeli.monolith.core.entity.review.IReviewEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -46,18 +43,21 @@ public class CreationInteractor implements CreationInputBoundary {
 
         if(!p.getRecommendations().isEmpty()){
             p.getRecommendations().forEach(r -> {
-                RecommendationEntity recommendationEntity = (RecommendationEntity) recommendationFactory.createRecommendation(r.getVersion(),r.getAuthor(),r.getRating(),r.getContent());
+                RecommendationEntity recommendationEntity = (RecommendationEntity) recommendationFactory
+                        .createRecommendation(r.getVersion(),r.getAuthor(),r.getRating(),r.getContent());
                 recommendationEntities.add(recommendationEntity);
             });
         }
         if(!p.getReviews().isEmpty()){
             p.getReviews().forEach(r -> {
-                ReviewEntity reviewEntity = (ReviewEntity) reviewFactory.createReview(r.getAuthor(),r.getSubject(),r.getContent());
+                ReviewEntity reviewEntity = (ReviewEntity) reviewFactory
+                        .createReview(r.getAuthor(),r.getSubject(),r.getContent());
                 reviewEntities.add(reviewEntity);
             });
         }
 
-        IProductEntity product = productFactory.createProduct(p.getProductId(), p.getVersion(),p.getName(),p.getWeight(),recommendationEntities,reviewEntities);
+        IProductEntity product = productFactory
+                .createProduct(p.getProductId(), p.getVersion(), p.getName(), p.getWeight(), recommendationEntities, reviewEntities);
         return creationOutputBoundary.saveProduct(product);
 
     }

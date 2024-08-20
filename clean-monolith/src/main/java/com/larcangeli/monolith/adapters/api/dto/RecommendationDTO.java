@@ -1,4 +1,4 @@
-package com.larcangeli.monolith.drivers.dto;
+package com.larcangeli.monolith.adapters.api.dto;
 
 public record RecommendationDTO(Long recommendationId,
                                 Long productId,

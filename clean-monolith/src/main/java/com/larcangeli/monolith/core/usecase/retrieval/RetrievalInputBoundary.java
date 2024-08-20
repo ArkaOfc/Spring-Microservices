@@ -1,7 +1,6 @@
 package com.larcangeli.monolith.core.usecase.retrieval;
 
 import com.larcangeli.monolith.core.entity.product.IProductEntity;
-import com.larcangeli.monolith.drivers.dto.ProductAggregateDTO;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package com.larcangeli.monolith.drivers.mapper;
+package com.larcangeli.monolith.adapters.api.mapper;
 
 import com.larcangeli.monolith.adapters.persistence.implementation.Product;
 import com.larcangeli.monolith.core.entity.product.impl.ProductEntity;
 import com.larcangeli.monolith.core.entity.product.IProductEntity;
-import com.larcangeli.monolith.drivers.dto.ProductAggregateDTO;
+import com.larcangeli.monolith.adapters.api.dto.ProductAggregateDTO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

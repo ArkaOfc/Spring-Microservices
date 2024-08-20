@@ -1,9 +1,9 @@
-package com.larcangeli.monolith.drivers.mapper;
+package com.larcangeli.monolith.adapters.api.mapper;
 
 import com.larcangeli.monolith.adapters.persistence.implementation.Recommendation;
 import com.larcangeli.monolith.core.entity.recommendation.impl.RecommendationEntity;
 import com.larcangeli.monolith.core.entity.recommendation.IRecommendationEntity;
-import com.larcangeli.monolith.drivers.dto.RecommendationDTO;
+import com.larcangeli.monolith.adapters.api.dto.RecommendationDTO;
 import org.mapstruct.Mapper;
 
 import java.util.Set;

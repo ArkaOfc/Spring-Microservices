@@ -1,4 +1,4 @@
-package com.larcangeli.monolith.drivers.util.exceptions;
+package com.larcangeli.monolith.adapters.api.util.exceptions;
 
 public class NotFoundException extends RuntimeException{
 

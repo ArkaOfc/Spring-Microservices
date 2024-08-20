@@ -1,11 +1,8 @@
 package com.larcangeli.monolith.core.usecase.retrieval;
 
 import com.larcangeli.monolith.core.entity.product.IProductEntity;
-import com.larcangeli.monolith.drivers.mapper.ProductAggregateMapper;
-import com.larcangeli.monolith.drivers.dto.ProductAggregateDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

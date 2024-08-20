@@ -1,10 +1,10 @@
-package com.larcangeli.monolith.drivers.util;
+package com.larcangeli.monolith.adapters.api.util;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
-import com.larcangeli.monolith.drivers.util.exceptions.InvalidInputException;
-import com.larcangeli.monolith.drivers.util.exceptions.NotFoundException;
+import com.larcangeli.monolith.adapters.api.util.exceptions.InvalidInputException;
+import com.larcangeli.monolith.adapters.api.util.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

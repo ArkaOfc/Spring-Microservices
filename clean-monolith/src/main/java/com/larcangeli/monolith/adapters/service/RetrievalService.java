@@ -4,14 +4,14 @@ import com.larcangeli.monolith.adapters.persistence.implementation.Product;
 import com.larcangeli.monolith.adapters.persistence.implementation.Recommendation;
 import com.larcangeli.monolith.adapters.persistence.implementation.Review;
 import com.larcangeli.monolith.adapters.persistence.repository.IProductCompositeRepository;
-import com.larcangeli.monolith.drivers.mapper.ProductAggregateMapper;
-import com.larcangeli.monolith.drivers.mapper.RecommendationMapper;
-import com.larcangeli.monolith.drivers.mapper.ReviewMapper;
+import com.larcangeli.monolith.adapters.api.mapper.ProductAggregateMapper;
+import com.larcangeli.monolith.adapters.api.mapper.RecommendationMapper;
+import com.larcangeli.monolith.adapters.api.mapper.ReviewMapper;
 import com.larcangeli.monolith.core.entity.recommendation.impl.RecommendationEntity;
 import com.larcangeli.monolith.core.entity.review.impl.ReviewEntity;
 import com.larcangeli.monolith.core.entity.product.IProductEntity;
 import com.larcangeli.monolith.core.usecase.retrieval.RetrievalOutputBoundary;
-import com.larcangeli.monolith.drivers.util.exceptions.NotFoundException;
+import com.larcangeli.monolith.adapters.api.util.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
