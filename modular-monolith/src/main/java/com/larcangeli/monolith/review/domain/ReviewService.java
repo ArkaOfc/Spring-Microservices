@@ -2,7 +2,9 @@ package com.larcangeli.monolith.review.domain;
 
 import com.larcangeli.monolith.review.shared.IReviewService;
 import com.larcangeli.monolith.review.shared.ReviewDTO;
-import org.springframework.context.event.EventListener;
+import com.larcangeli.monolith.util.exceptions.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,6 +12,7 @@ import java.util.*;
 @Service
 class ReviewService implements IReviewService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ReviewService.class);
     private final ReviewRepository repo;
     private final ReviewMapper mapper;
 
@@ -20,7 +23,13 @@ class ReviewService implements IReviewService {
 
     @Override
     public ReviewDTO save(ReviewDTO review) {
-        return mapper.toDTO(repo.save(mapper.toEntity(review)));
+        try{
+            return mapper.toDTO(repo.save(mapper.toEntity(review)));
+        }catch (RuntimeException re){
+            LOG.warn("createCompositeProduct failed", re);
+            throw re;
+        }
+
     }
 
     @Override
@@ -30,19 +39,28 @@ class ReviewService implements IReviewService {
 
     @Override
     public void deleteById(Long reviewId) {
-        if(repo.findById(reviewId).isPresent())
-           repo.deleteById(reviewId);
-        else throw ReviewNotFoundException.forId(reviewId);
+        try{
+            repo.deleteById(reviewId);
+        }catch (NotFoundException e){
+            throw new NotFoundException("No review found with ID: " + reviewId);
+        }
     }
 
     @Override
     public void deleteReviews(Long productId) {
-        repo.deleteAll(repo.findRecommendationsByProductId(productId));
+        try{
+            repo.deleteAll(repo.findRecommendationsByProductId(productId));
+        }catch (NotFoundException e){
+            throw new NotFoundException("No product found with ID: " + productId);
+        }
     }
-
 
     @Override
     public List<ReviewDTO> findReviewsByProductId(Long productId) {
-        return mapper.toDTOs(repo.findRecommendationsByProductId(productId));
+        try{
+            return mapper.toDTOs(repo.findRecommendationsByProductId(productId));
+        }catch (NotFoundException e){
+            throw new NotFoundException("No product found with ID: " + productId);
+        }
     }
 }

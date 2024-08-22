@@ -5,13 +5,10 @@ import com.larcangeli.monolith.review.shared.IReviewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
-
 @RestController
-public class ReviewController {
+class ReviewController implements IReviewController{
 
     private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
@@ -22,31 +19,19 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping(value = "/product-composite/{productId}/reviews", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    ReviewDTO createReview(@RequestBody ReviewDTO review){
+    @Override
+    public ReviewDTO createReview(@RequestBody ReviewDTO review){
         LOG.debug("deleteCompositeProduct: Creates the review with ID: {}", review.reviewId());
-
-        try{
-            ReviewDTO r = reviewService.save(review);
-            LOG.debug("deleteCompositeProduct: review created with ID: {}", review.reviewId());
-            return r;
-        }catch (NoSuchElementException e){
-            throw new NoSuchElementException("Review with ID: " + review.reviewId() + " not found");
-        }
+        ReviewDTO r = reviewService.save(review);
+        LOG.debug("deleteCompositeProduct: review created with ID: {}", review.reviewId());
+        return r;
     }
 
-    @DeleteMapping(value = "/product-composite/{productId}/reviews/{reviewId}")
-    void deleteReview(@PathVariable Long reviewId){
+    @Override
+    public void deleteReview(@PathVariable Long reviewId){
         LOG.debug("deleteCompositeProduct: Deletes the review with ID: {}", reviewId);
-
-        try{
-            reviewService.deleteById(reviewId);
-        }catch (NoSuchElementException e){
-            throw new NoSuchElementException("Review with ID: " + reviewId + " not found");
-        }
+        reviewService.deleteById(reviewId);
         LOG.debug("deleteCompositeProduct: review deleted for ID: {}", reviewId);
-
     }
 
 }

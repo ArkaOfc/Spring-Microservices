@@ -1,8 +1,12 @@
-package com.larcangeli.monolith.adapters.api.util;
+package com.larcangeli.monolith.web.errors;
 
-import com.larcangeli.monolith.adapters.api.util.exceptions.InvalidInputException;
-import com.larcangeli.monolith.adapters.api.util.exceptions.NotFoundException;
-import com.larcangeli.monolith.adapters.api.util.exceptions.UnprocessableEntityException;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+
+import com.larcangeli.monolith.web.exceptions.InvalidInputException;
+import com.larcangeli.monolith.web.exceptions.NotFoundException;
+import com.larcangeli.monolith.web.exceptions.UnprocessableEntityException;
 import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,14 +15,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import org.springframework.web.context.request.WebRequest;
 
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-
 @RestControllerAdvice
-public class GlobalControllerExceptionHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
+class GlobalExceptionHandler {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
@@ -38,6 +41,13 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler({UnprocessableEntityException.class})
     public @ResponseBody HttpErrorInfo handleUnprocessableEntityException(
             UnprocessableEntityException ex, WebRequest request) {
+        return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+    }
+
+    @ResponseStatus(UNPROCESSABLE_ENTITY)
+    @ExceptionHandler({InvalidInputException.class})
+    public @ResponseBody HttpErrorInfo handleInvalidInputException(
+            InvalidInputException ex, WebRequest request) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 

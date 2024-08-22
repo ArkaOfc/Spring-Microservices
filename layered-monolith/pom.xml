@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.larcangeli</groupId>
-    <artifactId>modular-monolith</artifactId>
+    <artifactId>layered-monolith</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>modular-monolith</name>
-    <description>modular-monolith</description>
+    <name>layered-monolith</name>
+    <description>layered-monolith</description>
     <url/>
     <licenses>
         <license/>
@@ -65,37 +65,6 @@
             <version>6.4.2.Final</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-starter-core</artifactId>
-            <version>1.1.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-actuator</artifactId>
-            <version>1.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-docs</artifactId>
-            <version>1.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-starter-test</artifactId>
-            <version>1.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-bom</artifactId>
-            <version>1.2.2</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.0.2</version>
@@ -110,7 +79,7 @@
                 <version>3.4.0</version>
                 <configuration>
                     <to>
-                        <image>com.larcangeli/monolith-jib:${project.version}</image>
+                        <image>com.larcangeli/layered-monolith-jib:${project.version}</image>
                     </to>
                 </configuration>
             </plugin>
@@ -147,7 +116,7 @@
                 <version>3.4.0</version>
                 <configuration>
                     <to>
-                        <image>com.larcangeli/monolith-jib:${project.version}</image>
+                        <image>com.larcangeli/layered-monolith-jib:${project.version}</image>
                     </to>
                 </configuration>
             </plugin>

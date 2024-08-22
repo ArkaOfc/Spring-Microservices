@@ -10,14 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-public class ProductController {
+class ProductController implements IProductController{
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
 
@@ -35,8 +34,8 @@ public class ProductController {
     }
 
 
-    @GetMapping(value = "/product-composite/{productId}", produces = "application/json")
-    ProductDTO getProduct(@PathVariable Long productId){
+    @Override
+    public ProductDTO getProduct(@PathVariable Long productId){
         LOG.debug("getCompositeProduct: lookup a product aggregate for productId: {}", productId);
         ProductDTO p = productService.findById(productId);
 
@@ -46,15 +45,13 @@ public class ProductController {
         return createProductAggregate(p,recommendations,reviews);
     }
 
-    @GetMapping(value = "/product-composite", produces = "application/json")
-    List<ProductDTO> getAllProducts(){
+    @Override
+    public List<ProductDTO> getAllProducts(){
         return productService.findAll().stream().map(p -> getProduct(p.productId())).collect(Collectors.toList());
     }
 
-    @PostMapping(value    = "/product-composite", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    ProductDTO createProduct(@RequestBody ProductDTO body){
-        try{
+    @Override
+    public ProductDTO createProduct(@RequestBody ProductDTO body){
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", body.productId());
             ProductDTO p = productService.save(body);
             if(!body.recommendations().isEmpty()){
@@ -72,14 +69,11 @@ public class ProductController {
             LOG.debug("createCompositeProduct: composite entities created for productId: {}", body.productId());
             return p;
 
-        }catch (RuntimeException re) {
-            LOG.warn("createCompositeProduct failed", re);
-            throw re;
-        }
+
     }
 
-    @DeleteMapping(value = "/product-composite/{productId}")
-    void deleteProduct(@PathVariable Long productId){
+    @Override
+    public void deleteProduct(@PathVariable Long productId){
         LOG.debug("deleteCompositeProduct: Deletes a product aggregate for productId: {}", productId);
         productService.deleteById(productId);
         events.publishEvent(productId);

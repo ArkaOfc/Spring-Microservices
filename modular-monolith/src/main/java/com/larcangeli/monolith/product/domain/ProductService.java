@@ -1,8 +1,11 @@
 package com.larcangeli.monolith.product.domain;
 
-import com.larcangeli.monolith.exceptions.InvalidInputException;
+import com.larcangeli.monolith.util.exceptions.InvalidInputException;
 import com.larcangeli.monolith.product.shared.IProductService;
 import com.larcangeli.monolith.product.shared.ProductDTO;
+import com.larcangeli.monolith.util.exceptions.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
 @Service
 class ProductService implements IProductService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository repo;
     private final ProductMapper mapper;
 
@@ -26,7 +30,7 @@ class ProductService implements IProductService {
         }
 
         Product entity = repo.findById(id)
-                .orElseThrow(() -> ProductNotFoundException.forId(id));
+                .orElseThrow(() -> new NotFoundException("No product found with ID: " + id));
             return mapper.toDTO(entity);
     }
 
@@ -39,7 +43,12 @@ class ProductService implements IProductService {
 
 
     public ProductDTO save(ProductDTO product) {
-        return mapper.toDTO(repo.save(mapper.toEntity(product)));
+        try {
+            return mapper.toDTO(repo.save(mapper.toEntity(product)));
+        }catch (RuntimeException re) {
+            LOG.warn("createCompositeProduct failed", re);
+            throw re;
+        }
     }
 
 

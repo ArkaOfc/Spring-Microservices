@@ -1,11 +1,10 @@
 package com.larcangeli.monolith.recommendation.domain;
 
-import com.larcangeli.monolith.product.web.controllers.ProductController;
 import com.larcangeli.monolith.recommendation.shared.IRecommendationService;
 import com.larcangeli.monolith.recommendation.shared.RecommendationDTO;
+import com.larcangeli.monolith.util.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,6 +12,7 @@ import java.util.*;
 @Service
 class RecommendationService implements IRecommendationService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(RecommendationService.class);
     private final RecommendationRepository repo;
     private final RecommendationMapper mapper;
 
@@ -23,7 +23,12 @@ class RecommendationService implements IRecommendationService {
 
     @Override
     public RecommendationDTO save(RecommendationDTO recommendation) {
-       return mapper.toDTO(repo.save(mapper.toEntity(recommendation)));
+        try{
+            return mapper.toDTO(repo.save(mapper.toEntity(recommendation)));
+        }catch (RuntimeException re){
+            LOG.warn("createCompositeProduct failed", re);
+            throw re;
+        }
     }
 
     @Override
@@ -33,19 +38,30 @@ class RecommendationService implements IRecommendationService {
 
     @Override
     public void deleteById(Long recommendationId) {
-        if(repo.findById(recommendationId).isPresent()){
+        try {
             repo.deleteById(recommendationId);
-        }else throw RecommendationNotFoundException.forId(recommendationId);
+        }catch (NoSuchElementException e) {
+            throw new NotFoundException("No recommendation found with ID: " + recommendationId);
+        }
+
     }
 
     @Override
     public void deleteRecommendations(Long productId) {
-        repo.deleteAll(repo.findRecommendationsByProductId(productId));
+        try{
+            repo.deleteAll(repo.findRecommendationsByProductId(productId));
+        }catch (NoSuchElementException e){
+            throw new NoSuchElementException("No product found with ID: " + productId);
+        }
     }
 
     @Override
     public List<RecommendationDTO> findRecommendationsByProductId(Long productId) {
-        return mapper.toDTOs(repo.findRecommendationsByProductId(productId));
+        try{
+            return mapper.toDTOs(repo.findRecommendationsByProductId(productId));
+        }catch (NoSuchElementException e){
+            throw new NoSuchElementException("No product found with ID: " + productId);
+        }
     }
 
 
