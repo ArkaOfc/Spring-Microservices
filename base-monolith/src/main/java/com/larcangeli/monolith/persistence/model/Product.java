@@ -1,9 +1,6 @@
 package com.larcangeli.monolith.persistence.model;
 
-import com.larcangeli.monolith.web.controller.ProductCompositeController;
 import jakarta.persistence.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Version;
 
 import java.util.*;

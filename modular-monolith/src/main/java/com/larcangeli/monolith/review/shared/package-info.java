@@ -1,2 +1,2 @@
-@org.springframework.modulith.NamedInterface("review-shared")
+@org.springframework.modulith.NamedInterface("shared")
 package com.larcangeli.monolith.review.shared;

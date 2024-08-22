@@ -5,10 +5,7 @@ import com.larcangeli.monolith.persistence.model.Recommendation;
 import com.larcangeli.monolith.persistence.model.Review;
 import com.larcangeli.monolith.persistence.repository.IProductCompositeRepository;
 import com.larcangeli.monolith.service.IProductCompositeService;
-import com.larcangeli.monolith.util.exceptions.NotFoundException;
-import com.larcangeli.monolith.web.controller.ProductCompositeController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.larcangeli.monolith.web.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,7 +20,9 @@ public class ProductCompositeService implements IProductCompositeService {
     }
 
     @Override
-    public Optional<Product> findById(Long id){return productRepository.findById(id);}
+    public Optional<Product> findById(Long id){
+        return productRepository.findById(id);
+    }
 
     @Override
     public Collection<Product> findAll(){

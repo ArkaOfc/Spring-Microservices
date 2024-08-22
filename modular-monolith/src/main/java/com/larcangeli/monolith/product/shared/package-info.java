@@ -1,2 +1,2 @@
-@org.springframework.modulith.NamedInterface("product-shared")
+@org.springframework.modulith.NamedInterface("shared")
 package com.larcangeli.monolith.product.shared;

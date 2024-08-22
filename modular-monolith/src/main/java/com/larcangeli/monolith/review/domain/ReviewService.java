@@ -35,7 +35,7 @@ class ReviewService implements IReviewService {
         else throw ReviewNotFoundException.forId(reviewId);
     }
 
-    @EventListener
+    @Override
     public void deleteReviews(Long productId) {
         repo.deleteAll(repo.findRecommendationsByProductId(productId));
     }

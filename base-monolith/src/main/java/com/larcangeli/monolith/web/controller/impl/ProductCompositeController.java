@@ -1,4 +1,4 @@
-package com.larcangeli.monolith.web.controller;
+package com.larcangeli.monolith.web.controller.impl;
 
 import com.larcangeli.monolith.mapper.ProductAggregateMapper;
 import com.larcangeli.monolith.mapper.RecommendationMapper;
@@ -7,21 +7,22 @@ import com.larcangeli.monolith.persistence.model.Product;
 import com.larcangeli.monolith.persistence.model.Recommendation;
 import com.larcangeli.monolith.persistence.model.Review;
 import com.larcangeli.monolith.service.IProductCompositeService;
-import com.larcangeli.monolith.util.exceptions.NotFoundException;
+import com.larcangeli.monolith.web.controller.IProductCompositeController;
 import com.larcangeli.monolith.web.dto.ProductAggregateDTO;
 import com.larcangeli.monolith.web.dto.RecommendationDTO;
 import com.larcangeli.monolith.web.dto.ReviewDTO;
+import com.larcangeli.monolith.web.exceptions.NotFoundException;
+import com.larcangeli.monolith.web.exceptions.UnprocessableEntityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @RestController
-public class ProductCompositeController {
+public class ProductCompositeController implements IProductCompositeController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeController.class);
 
@@ -38,9 +39,10 @@ public class ProductCompositeController {
         this.productService = productService;
     }
 
-    @GetMapping(value = "/product-composite/{productId}", produces = "application/json")
-    ProductAggregateDTO getProduct(@PathVariable Long productId){
-
+    @Override
+    public ProductAggregateDTO getProduct(@PathVariable Long productId){
+        if(productId < 0)
+            throw new UnprocessableEntityException("Invalid productId: " + productId);
         LOG.debug("getCompositeProduct: lookup a product aggregate for productId: {}", productId);
         Optional<Product> p = productService.findById(productId);
         if(p.isEmpty()){
@@ -53,8 +55,8 @@ public class ProductCompositeController {
         return createProductAggregate(p.get(), recommendations, reviews);
     }
 
-    @GetMapping(value = "/product-composite", produces = "application/json")
-    List<ProductAggregateDTO> getAllProducts(){
+    @Override
+    public List<ProductAggregateDTO> getAllProducts(){
         Iterable<Product> allProducts = productService.findAll();
         List<ProductAggregateDTO> aggregates = new ArrayList<>();
         allProducts.forEach(p -> aggregates.add(createProductAggregate(p,
@@ -64,9 +66,8 @@ public class ProductCompositeController {
         return aggregates;
     }
 
-    @PostMapping(value    = "/product-composite", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    ProductAggregateDTO createProduct(@RequestBody ProductAggregateDTO body){
+    @Override
+    public ProductAggregateDTO createProduct(@RequestBody ProductAggregateDTO body){
         try{
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", body.productId());
 
@@ -90,8 +91,8 @@ public class ProductCompositeController {
         }
     }
 
-    @DeleteMapping(value = "/product-composite/{productId}")
-    void deleteProduct(@PathVariable Long productId){
+    @Override
+    public void deleteProduct(@PathVariable Long productId){
         LOG.debug("deleteCompositeProduct: Deletes a product aggregate for productId: {}", productId);
         productService.deleteById(productId);
 
@@ -99,9 +100,8 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value = "/product-composite/{productId}/recommendations", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    RecommendationDTO createRecommendation(@PathVariable Long productId, @RequestBody RecommendationDTO recommendation){
+    @Override
+    public RecommendationDTO createRecommendation(@PathVariable Long productId, @RequestBody RecommendationDTO recommendation){
         Optional<Product> p = productService.findById(productId);
         if(p.isEmpty()){
             throw new NotFoundException("No product found with ID: " + recommendation.productId());
@@ -112,8 +112,8 @@ public class ProductCompositeController {
         return recommendationMapper.recommendationToRecommendationDTO(r);
     }
 
-    @DeleteMapping(value = "/product-composite/{productId}/recommendations/{recommendationId}")
-    void deleteRecommendation(@PathVariable Long productId, @PathVariable Long recommendationId){
+    @Override
+    public void deleteRecommendation(@PathVariable Long productId, @PathVariable Long recommendationId){
         LOG.debug("deleteCompositeProduct: Deletes the recommendation with ID: {}", recommendationId);
 
         try{
@@ -125,9 +125,8 @@ public class ProductCompositeController {
 
     }
 
-    @PostMapping(value = "/product-composite/{productId}/reviews", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    ReviewDTO createReview(@PathVariable Long productId, @RequestBody ReviewDTO review){
+    @Override
+    public ReviewDTO createReview(@PathVariable Long productId, @RequestBody ReviewDTO review){
         Optional<Product> p = productService.findById(productId);
         if(p.isEmpty()){
             throw new NotFoundException("No product found with ID: " + review.productId());
@@ -138,8 +137,8 @@ public class ProductCompositeController {
         return reviewMapper.reviewToReviewDTO(r);
     }
 
-    @DeleteMapping(value = "/product-composite/{productId}/reviews/{reviewId}")
-    void deleteReview(@PathVariable Long productId, @PathVariable Long reviewId){
+    @Override
+    public void deleteReview(@PathVariable Long productId, @PathVariable Long reviewId){
         LOG.debug("deleteCompositeProduct: Deletes the review with ID: {}", reviewId);
 
         try{
