@@ -3,7 +3,6 @@ A focused exploration of transitioning monolithic applications to microservices 
 
 ## To Run Any Project
 ```
-https://github.dev/larcangeli/Transizione-da-architetture-monolitiche-ad-architetture-a-microservizi
 $mvn clean package
 $docker build -f docker/Dockerfile --tag [layered-monolith/clean-monolith/modular-monolith]:0.0.1-SNAPSHOT .
 $docker run --name [layered-monolith/clean-monolith/modular-monolith] -p 8080:8080 [layered-monolith/clean-monolith/modular-monolith]:0.0.1-SNAPSHOT
